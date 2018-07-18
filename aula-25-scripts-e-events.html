@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 25 - Scripts & Events</title>
+</head>
+<body>
+<!--   
+// bbbbbbb
+    
+1.  Scripts e Eventos inline - Parte 1
+    
+    1.1 Inline Scripts
+-->
+<a href="javascript:boom()">boom!! 1</a> 
+
+<br>
+<!--
+"javascript: " tudo que vem aqui é um código de JS válido.
+    
+- É possível, mas não é recomedado.
+- É possível que você encontre um código assim:
+
+    1.2 void     
+- É uma palavra-chave do JS. Anula qualquer coisa que venha em seguida.
+- em linguagens fortemente "tipadas", void é usado para anular o tipo de uma variável ou função. Embora que JS não seja tipado, a palavra-chave void também existe.
+-->
+<a href="javascript:void(0)">boom!! 2</a>
+<br>
+
+<!--
+- Se quisermos evitar algum comportamento do JS, o mais correto seria utilizarmos o preventDefault.
+    
+    1.3 Eventos (outros tipos)
+    http:developer.mozilla.org/en-US/docs/Web/Events
+
+    1.4. Inline Events
+    
+- Raramente seria recomendado. Não é boa prática.
+-->
+<a href="javascript:" onclick="boom()">boom!! 3</a>
+<br>
+
+<!--    
+- Eis o recomendado:
+-->
+<a href="www.google.com">boom!!! 4</a>
+<br>
+
+<script>
+    var $a = document.querySelector('a');
+    $a.addEventListener('click', boom, false);
+    function boom(event){
+        event.preventDefault();
+        alert('boom');
+    }    
+</script> 
+<!--    
+2.  Eventos - Parte 2
+-->
+<br>
+
+        
+    <div data-js="div" style="background: gray">
+        <a href="#" data-js="link">Link
+            <span data-js="span">Span</span>
+        </a>
+    </div>
+    
+    
+<script>
+
+    (function(){
+        'use strict';
+
+        /*
+        var $a = document.querySelector('[data-js="link"]');         
+        document.querySelector('[data-js="div"]').addEventListener('click', function(event){
+            event.preventDefault();
+            alert('clicou na div');
+        }, false);            
+
+        $a.addEventListener('click', function(event){
+            event.preventDefault();
+            alert('clicou no a');
+        }, false);
+        */
+
+        // addEventListener. SINTAX:
+
+        // addEventListener(tipoDeEvento, callback function, useCapture)
+
+        // useCapture (true or false)
+
+        // Como será a captura de eventos?
+
+        // Se não passamos o false, em geral o browser assumirá 'false' como padrão. Nos browsers antigos, haverá erro.
+
+        // true:
+        // vai atrelar os elemetos a partir do pai até o filho que você clicou.
+
+        // false:
+        // vai atrelar os elemento do filho que você clicou até os pais.
+
+        function on(element, event, callback) {
+            document.querySelector(element).addEventListener(event, callback, false);
+
+        // Experimente com TRUE: (inverterá a ordem dos eventos)
+        //document.querySelector(element).addEventListener(event, callback, true);
+
+        }
+        on('[data-js="link"]', 'click', function(event){
+            event.preventDefault();
+            alert('clicou no a');
+        });
+
+        on('[data-js="div"]', 'click', function(){
+            alert('clicou na div');
+        });
+
+        on('[data-js="span"]', 'click', function(){
+            alert('clicou no span');
+        });
+
+    })();
+
+</script>
+        
+        
+
+        
+ 
+<h4>Video 3: múltiplos eventos por elemento</h4>  
+<!--
+3.  Mais eventos por elemento - Parte 3
+
+
+Como o addEventListener é um MÉTODO, você consegue atribuir mais de evento para um mesmo elemento. Portanto, os eventos são cumulativos.
+
+-->       
+    <div data-js="myDiv" style="background: cyan">
+        <a href="#" data-js="myLink">myLink</a>
+    </div>    
+<script>
+    (function(){
+        'use strict';
+
+        function multiple(element, event, callback) {
+            document.querySelector(element).addEventListener(event, callback, false);
+
+        }
+        multiple('[data-js="myLink"]', 'click', function(event){
+            event.preventDefault();
+            alert('será que serei subscrito pelos abaixo?');
+        });
+
+        multiple('[data-js="myLink"]', 'click', function(){
+            alert('eu sou o segundo alerta');
+        });
+
+        multiple('[data-js="myLink"]', 'click', function(){
+            alert('último alerta da série de 3');
+        });
+
+    })();
+</script>    
+<!--
+FORMA ULTRAPASSADA:
+
+Antigamente você podia atrelar eventos da forma abaixo. Você conseguia colocar um eventListener direto com a propriedade onclick. Mas se fosse preciso atrelar a ele um segundo evento de clique, não havia como fazê-lo: ele iria subescrever o anterior. Para testar isso, remova o segundo bloco de código dos comentários.
+-->     
+    <br>
+        <div data-js="myDiv" style="background: red;">
+            <a href="#" data-js="myNextLink" style="color: #ccc;">myATag</a>
+        </div>  
+    <br>
+<script>
+    (function(){
+        
+        var $myATag = document.querySelector('[data-js="myNextLink"]');
+        
+        $myATag.onclick = function(event) {
+            event.preventDefault();
+            alert('clicou no My A Tag de um jeito diferente');
+        }
+        
+        /*
+        $myATag.onclick = function(event) {
+            event.preventDefault();
+            alert('clicou NOVAMENTE');
+        }
+        */       
+    
+    })();
+</script>
+<!--
+
+Removendo eventos:
+
+-->       
+    <div>
+        <a href="#" data-js="myLastLink" style="background: cyan">myLink</a>
+    </div>    
+<script>
+    
+    (function(){
+        'use strict';
+
+        function turningON(element, event, callback) {
+            document.querySelector(element)
+                .addEventListener(event, callback, false);
+        }
+    
+        function turningOFF(element, event, callback) {
+            document.querySelector(element)
+                .removeEventListener(event, callback, false);
+        }    
+        
+        function handleClick(event) {
+                event.preventDefault();
+                alert('clicou no a');
+        }
+        
+        function handleClick2(event) {
+                event.preventDefault();
+                alert('novo evento de clique no a');
+        }
+    
+        turningON('[data-js="myLastLink"]', 'click', handleClick);
+        turningOFF('[data-js="myLastLink"]', 'click', handleClick);
+        // Esse acima talvez não deva ser o melhor dos exemplos pois, na prática, é como se o handleClick nunca fosse executado. Talvez se essa function estivesse vinculada a algum evento de tempo, algum delay qualquer, então o seu comportamento pudesse ser mais visível, ligando e desligando o evento. A saber!
+        
+        
+        turningON('[data-js="myLastLink"]', 'click', handleClick2);
+        
+        // É mandatório que todos os parâmetros sejam passados no método "removeEventListener" ou "addEventListener". No exemplo abaixo, o código não funciona como esperado pois faltam os demais parâmetros do método:
+        
+        //document.querySelector('[data-js="myLastLink"]').removeEventListener('click');
+        // Nada será removido. Não funcionará.
+        
+
+    })();
+
+</script>        
+   
+   
+<!--
+Eventos em Elementos de Formulários
+  
+Evento 'input'
+Evento 'keyup'
+Evento 'keydown'
+   
+-->
+   <br>
+   <input type="text" data-js="myInput" style="border: 1px solid black" />
+   
+   <br><br>
+   
+   <select data-js="select">
+       <option value="1">1</option>
+       <option value="2">2</option>
+       <option value="3">3</option>
+   </select>
+   
+<script>
+
+(function(){
+    
+
+    function turningON(element, event, callback) {
+        document.querySelector(element)
+            .addEventListener(event, callback, false);
+    }    
+    
+    // INPUT
+//    turningON('[data-js="myInput"]', 'input', function(event) {
+//        console.log(this.value);
+//    });
+    
+    // KEYUP
+    // Quando você solta uma tecla pressionada (release the key)    
+    turningON('[data-js="myInput"]', 'keyup', function(event) {
+        console.log(this.value);
+    });    
+    
+    // KEYDOWN
+    // Quando você press down the key (pressiona a tecla)
+//    turningON('[data-js="myInput"]', 'keydown', function(event) {
+//        console.log(this.value);
+//    });    
+    
+    turningON('[data-js="select"]', 'change', function(){
+        document.querySelector('[data-js="myInput"]').value = this.value;
+    });
+    
+    
+})();
+    
+    
+</script>
+   
+    
+</body>
+</html>

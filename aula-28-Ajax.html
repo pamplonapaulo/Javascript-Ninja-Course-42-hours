@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 28 - AJAX: Asynchronous Javascript And XML</title>
+</head>
+<body>
+<!--
+        Requisição Assíncrona:
+        Não deixa uma operação que demanda muito consumo de recursos bloquear sua thread principal.
+        
+        Permite que você efetue essa ação em uma thread secundária, deixando a thread principal liberada, utilizando eventos, temporizadores (setTimeout, setInterval).
+            
+        Por que XML?
+        A ideia do AJAX surgiu no XML, mas você consegue utilizar qualquer tipo de conteúdo com o AJAX.
+            
+        AJAX serve para você fazer requisições assíncronas, de preferência no mesmo domínio em que você está, trazendo informações sem que você precise recarregar toda a tela. A resposta pode ser XML, TXT, JSON, HTML, pode ser qualquer coisa.
+        
+        Qual é o objeto?            
+        window.XMLHttpRequest()
+        
+        Como instanciar esse objeto?     
+        var ajax = new XMLHttpRequest(); // Não é necessário repetir o "window" na frente, pois é um objeto global.
+        
+        Conexão/ Protocolos:
+        ajax.open(<protocol>, <url>);
+        
+        Tipos de protocolos:
+        GET, POST, Puch, Delite, Options, Head, etc.
+        Qualquer protocolo http é válido desde que seja suportado pelo servidor e pelo browser.
+        Preferencialmente, utilizamos GET e POST.
+        
+        ajax.send(<data>);
+        
+-->
+              
+
+<script type="text/javascript" src="aula-28-Ajax.js"></script>
+</body>
+</html>

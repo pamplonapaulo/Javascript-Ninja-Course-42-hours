@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 10: Wrapper Objects and TypeOf</title>
+</head>
+<body>
+  <h1>Aula 10: Wrapper Objects and TypeOf</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+        
+    // Wrapper Objects
+        
+        // Valores Primitivos não são objetos: número, string, booleans, null, undefined.
+        
+        // Objetos: arrays, objetos, funções.
+        // Se tem propriedades e métodos, é um objeto.
+        
+        // Exemplos:
+        
+        var name = 'Paulo';
+        name.length; // 5
+        
+        // Objetos Construtores (Wrapper Objects)
+        
+        // Wrappers ou Construtores são objetos que criam novos objetos.
+        
+        name;
+        // retorna isso:
+        [String: 'Paulo'] // mas isso só no NODE.js
+        
+        name.valueOf();
+        // 'Paulo'
+        
+        // Quando cia com new String, será sempre um objeto.
+        
+        // OBS:
+        // name.length está criando um 'Objeto Construtor' para 'name', calcula o length da string e retorna, desfazendo o objeto criado.
+        
+        // Outra explicação para a mesma coisa:
+        var name = 'Paulo';
+        name.length;
+        
+        // Se name é apenas um objeto primitivo (uma string), como pode ter a propriedade .length ???
+        
+        // Justamente graças ao recurso de 'Object Constructor'.
+        
+        // 'Object Constructor' são funções que criam novos objetos.
+        // É como se por debaixo dos panos, o JS estivesse fazendo isso:
+        var name = new String('Paulo');
+        // ao chamarmos isso:
+        name.length;
+        
+        // Outros exemplos:
+        var age = new Number (30);
+        age;
+        // [ Number: 30 ]
+        var ninja = new Boolean (true);
+        ninja;
+        // [ Boolean: true ]
+        
+        
+        // O JS converte se você passar um formato errado, por exemplo:
+        
+        
+        var age = new Number ('30');
+        age;
+        // para retornar:
+        [ Number: 30 ] // já convertida a string to number.
+        // Ou seja, mesmo como string (o número entre aspas), o Constructor converte esse valor para Number. Dessa forma, você pode realizar operações matemáticas com esse valor. Se fosse mesmo uma string, ele concatenaria, não calcularia.
+        
+        
+        var name = new String(41);
+        name;
+        // para retornar:
+        [ String: '41' ] // já convertido o number to string.
+        
+        var myVar = Boolean(0);
+        myVar;
+        // false
+        var myVar = Boolean({});
+        myVar;
+        // true
+        // É a mesma coisa que isso:
+        !!{}
+        // true
+        
+        
+        // Conclusão: 
+        // JavaScript é uma linguagem de tipagem dinâmica, ou dynamic typing. Ou seja, o JavaScript automaticamente converte os tipos se achar necessário.
+   
+    // typeOf
+        
+        // Como testar tipos de valores?
+        
+        // Operador Unário typeOf
+        
+        typeof undefined;       // 'undefined'
+        typeof true;            // 'boolean'
+        typeof 10;              // 'number'
+        typeof 'JS ninja';      // 'string'
+        typeof NaN;             // 'number' (WOW!?)
+        typeof function(){};    // 'function'
+        
+        // Qualquer outro objeto que não uma function é typeof 'object':
+        
+        typeof {};              // 'object'
+        typeof [];              // 'object'
+        typeof null;            // 'object' (WOW!?)
+//      [ na verdade, null ser 'object' é um erro do JavaScript]
+        
+        // Conclusão:
+        // Podemos 'confiar' no typeof ?
+        // Resposta: Pode confiar somente para valores primitivos.
+        
+        
+        // Operações com tipos diferentes:
+        
+        
+        // Soma comum:
+        function sum(num1, num2) {
+            return num1 + num2;
+        }
+        console.log(sum(10, 2));
+        
+        // Soma de tipos distintos: Array e Object
+        function sum(num1, num2) {
+            return num1 + num2;
+        }
+        console.log(sum([], {}));
+        // [object Object]
+        // Os dois se transformaram em 1 objeto.
+        
+        // Soma de tipos distintos: String e Number
+        function subtraction(num1, num2) {
+            return num1 - num2;
+        }
+        console.log(subtraction('JS', 99));
+        // 'JS99'
+        // Foram concatenados em string.
+        
+        
+        // ATENÇÃO:
+        // O operador de soma age de forma distinta dos demais operadores, uma 'sobrecarga'.
+        // Os demais operadores sempre esperam que seja necessariamente dois números na operação.
+        
+        function subtraction(num1, num2) {
+            return num1 - num2;
+        }
+        console.log(subtraction('JS', 99));
+        // NaN
+        
+        function subtraction(num1, num2) {
+            return num1 - num2;
+        }
+        console.log(subtraction([], {}));
+        // NaN        
+        
+        // Como evitar / previnir esse tipo de situação?
+        
+        // Use typeof !!!
+        
+        
+        function subtraction(num1, num2) {
+            if(typeof num1 === 'number' && typeof num2 === 'number'){
+                return num1 - num2;    
+            } else {
+                return 'Entre com dois números';
+            }
+            
+        }
+        console.log(subtraction('JS', 99));        
+        // 'Entre com dois números'
+        
+        // Como identificar um NULL ?
+        
+       function subtraction(num1, num2) {
+            if( num1 === null || num2 === null){
+                return 'Não entre com valores nulos!';    
+            } else {
+                return num1 - num2;
+            }
+        }
+        console.log(subtraction(null, 99));  
+        // 'Não entre com valores nulos!'
+        
+        
+        
+        
+        
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+

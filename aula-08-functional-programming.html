@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 8: Functional Programming</title>
+</head>
+<body>
+  <h1>Aula 8: Functional Programming</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+    
+    // 1. PORQUE NOMEAR FUNÇÕES
+
+        
+        // FACILITA O DEBUG
+
+        // FUNÇÃO ANÔNIMA:
+        var func = function() { return 'oi'; };
+        func(); // 'oi'
+        func.name; // ''
+        
+        // FUNÇÃO NOMINAL:
+        var func = function theName() { return 'oi'; };
+        func(); // 'oi'
+        func.name; // 'theName'
+        
+    // 2. INTRODUÇÃO A FUNCTIONAL PROGRAMMING
+        
+        // 'CIDADÃOS' OU OBJETOS DE PRIMEIRA CLASSE
+        
+        // Funções são objetos de primeira classe.
+        // Têm o mesmo tratamento que objetos: tudo que você consegue fazer com objetos, você também consegue fazer com as funções.
+        // Ao contrário o JavaScript, o Java não tem programação funcional.
+        
+        // FUNÇÕES:
+        {} <3 function(){}
+        
+        // OBJETOS LITERAIS:
+        var car = {
+         brand: 'Chevrolet',
+         model: 'Silverado'
+        };
+         
+        // FUNÇÕES LITERAIS
+        function sum(x,y) {
+         return x + y;
+        }
+        
+        // ATRIBUIÇÇÃO DE OBJETOS À VARIÁVEIS
+        var obj = {};
+        
+        // ATRIBUIÇÇÃO DE FUNÇÕES À VARIÁVEIS
+        var myFunction = function fufu(){};
+        
+        // COMO RETORNAR FUNCTIONS?
+        
+        // Exemplo 1
+        function person(){
+            return {
+                name: 'Paulo',
+                lastName: 'Pamplona'
+            };
+        }
+        // COMO INVOCAR?
+        console.log(person()); // { name: 'Paulo', lastName: 'Pamplona' }
+        
+        // Exemplo 2 (com uma VAR)
+        function person(){
+            var info = {
+                name: 'Paulo',
+                lastName: 'Pamplona'
+            };
+            return info;
+        }
+        // COMO INVOCAR?
+        console.log(person()); // { name: 'Paulo', lastName: 'Pamplona' }
+        // OU SEJA, NÃO HÁ DIFERENÇA NA FORMA DE INVOCAR A FUNÇÃO.
+        
+        // Outros exemplos:
+        console.log(person.name()); // 'Paulo'
+        console.log(person.lastName()); // 'Pamplona'
+        
+        // RETORNO DE FUNÇÕES
+        function adder(x) {
+            return function(y) {
+                return x + y;
+            }
+        }
+        console.log(adder(2)(100));
+        // 102
+        
+        // OU:
+        function adder(x) {
+            return function(y) {
+                return x + y;
+            }
+        }
+        var add7 = adder(7);
+        console.log(add7(110));
+        // 117
+        
+        // OUTRO EXEMPLO 'CRAZY' BY MYSELF:
+        function crazyCount(a, a1, a2) {
+            return function(b, b1, b2) {
+                return function(c) {
+                    return function(d) {
+                        return function(e) {
+                            return (a + a1 + a2) + (b + b1 + b2) + c + d + e;
+                        }
+                    }
+                }
+            }
+        }
+        console.log(crazyCount(2, 2, 1)(10, 4, 3)(3)(1)(7));
+        // 33
+        
+        
+        // OBJETOS COMO PARÂMETROS DE FUNÇÕES
+        var car = { color: 'yellow'};
+        function getCarColor(myCar){
+            return mycar.color;
+        }
+        console.log(getCarColor(car));
+        // 'yellow'
+        
+        // FUNÇÕES COMO PARÂMETROS DE FUNÇÕES
+        function showOtherFunction(func) {
+            return func();
+        }
+        console.log(showOtherFunction(function() {
+            return 'Functional JS Ninja!'
+        }));
+        // 'Functional JS Ninja!'
+        
+        // OU:
+        function showOtherFunction(func) {
+            return func();
+        }
+        function anyFunction(){
+            return 'returned fucntion';
+        }
+        console.log(showOtherFunction(anyFunction));
+        // "returned fucntion"
+        
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+

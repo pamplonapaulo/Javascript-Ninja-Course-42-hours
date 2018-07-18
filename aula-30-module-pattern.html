@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 30 - Module Pattern e Closures</title>
+</head>
+<style>
+    
+    .aGetter {
+        color: blue;
+        font-size: 3rem;
+        opacity: 1;
+    }
+    
+    .anotherGetter {
+        opacity: 0.3;
+    }
+    
+</style>
+<body>
+   <h1>Aula 30: Module Pattern e Closures</h1>
+   
+   <div class='aGetter teste churros'>teste</div>
+   <div class='anotherGetter'>teste</div>
+   
+    <script>
+/*    
+        element.classList.add (adiciona uma classe)
+        element.classList.remove (remove uma classe)
+        element.classList.toggle (troca de classe)
+        element.classList.contains (verifica se existe uma classe no elemento)
+
+            * * * * * * * * * * * * * * * * * * * * * *
+            *                                         *
+            *    ÍNDICE DA AULA 30                    *
+            *                                         *
+            *    1. module pattern                    *
+            *                                         *
+            *      a - closures                       *
+            *                                         *
+            *                                         *
+            *    2. manipulando CSS                   *
+            *                                         *
+            *      a - element.style                  *
+            *      b - element.setAttribute           *
+            *      c - element.classList              *
+            *      d - element.classList.add          *
+            *      f - element.classList.remove       *
+            *      g - element.classList.toggle       *
+            *      h - element.classList.contains     *
+            *                                         *
+            * * * * * * * * * * * * * * * * * * * * * *
+
+Além de MODULE PATTERN, quais outros padrões podemos ter?
+
+- Antes vamos retomar CLOSURE.
+
+Javascript tem escopo léxico. Por padrão, cada função tem um escopo próprio.
+E cada função de Javascript cria uma CLOSURE. Uma closure é como um 'escopo fechado'.
+*/
+(function(){
+    'use strict';
+    var scope = 'my scope';
+    console.log('1', scope);
+    // 1 my scope
+})();
+    // console.log('2', scope);
+    // 2 scope is not defined
+/*
+
+    OUTRO CASO:
+*******************
+
+
+*/   
+(function(){
+    'use strict';
+    
+    var scope = 'my scope';
+    
+    function checkScope(){
+        var scope = 'local scope';
+        function func(){
+            return scope;
+        }
+        return func();
+    }
+    console.log('3', scope);
+    // 3 my scope
+    
+    console.log('4', checkScope());
+    // 4 my local scope
+    
+})();
+/*
+
+Acima, embora estejamos chamando checkScope() fora da função, o Javascript reconhece o escopo local. A função interna consegue guardar os valores tanto de dentro, quanto de fora dela. No caso, a variável de dentro subscreve a de fora.
+*/   
+/*
+
+    OUTRO CASO:
+*******************
+
+*/   
+(function(){
+    'use strict';
+    
+    var scope = 'my scope';
+    
+    function checkScope(){
+        var scope = 'local scope';
+        function func(){
+            return scope;
+        }
+        //return func();
+        return func;
+    }
+    console.log('3', scope);
+    // 3 my scope
+    
+    //console.log('4', checkScope());
+    console.log('4', checkScope()());
+    // 4 my local scope
+    
+})(); 
+/*
+
+Acima, Daciuk não executa a function 'func' dentro de checkScope(). Nesse caso, ele a executa fora (ao colocar os parênteses na call em si, que está dentro da IIFE master).
+
+Mesmo assim pega o local scope, por causa do closure.
+*/   
+/*        
+
+    OUTRO CASO:
+*******************
+
+*/   
+(function(){
+    'use strict';
+    
+    var counter = 0;
+    function increment(){
+        return counter++;
+    }
+    
+    console.log(increment()); // 0
+    console.log(increment()); // 1
+    console.log(increment()); // 2
+    console.log(increment()); // 3
+    console.log(increment()); // 4
+    console.log(increment()); // 5
+    
+    function otherFunction(){
+        counter = 150;
+    }
+    
+    otherFunction();
+    console.log(increment()); // 150
+    console.log(increment()); // 151
+    
+    
+})();
+/*
+
+No caso acima, a var 'counter' é compartilhada por todas as funções, ela é global.
+
+O que fazer para proteger a var?
+
+Podemos usar uma IIFE!!! Veja abaixo:
+*/
+(function(){
+    'use strict';
+    
+    var counter = 0;
+    var increment = (function (){
+        var counter = 0;
+        return function(){
+            return counter++;
+        }
+    })();
+        
+    function otherFunction(){
+        counter = 150;
+    }
+    
+    otherFunction();
+    console.log(increment()); // 1
+    console.log(increment()); // 2
+    
+})();
+/*
+No caso acima, portanto, 'increment' necessariamente está restrita à var 'counter' que é declarada dentro da IIFE que 'increment' recebe.
+*/
+/*        
+
+    OUTRO CASO:
+*******************
+
+*/   
+(function(){
+    'use strict';
+    
+    var counter = 0;
+    
+    var increment = (function (){
+        var counter = 33;
+        return (function(){
+            var counter = 1000;
+            return function(){
+                return counter++;
+            }
+        })();
+    })();
+        
+    function otherFunction(){
+        counter = 150;
+    }
+    
+    otherFunction();
+    console.log(increment()); // 1001
+    console.log(increment()); // 1002
+    
+})();
+/*
+Em resumo: vale a variável declarada no escopo que estiver mais baixo.
+
+*/
+/*
+Em resumo: vale a variável declarada no escopo que estiver mais baixo.
+*/
+        
+        
+/*
+
+    2.  Manipulando CSS
+    
+        a)  element.style.property = 'value';
+*/
+
+        (function(){
+            'use strict';
+            
+            var $div = document.querySelector('div');
+            
+            //$div.style = 'width: 100px; height: 100px; background: #fc0';
+            // ERRO: Cannot set property style of <HTMLElement> which has only a getter.
+            
+            $div.style.width = '100px';
+            $div.style.height = '100px';
+            $div.style.background = '#fc0';
+            
+            //$div.style.backgroundColor = 'red';
+            $div.style.display = 'inline-block'; // ou 'none'
+            
+        })();
+/*
+        
+Porém essa manipulação de CSS não é uma boa prática. Mas às vezes pode ser necessário.
+
+Outra forma:
+
+        b)  element.setAttribute('style', 'property: value; property: value');
+*/
+        (function(){
+            'use strict';
+            
+            
+            //var $div = document.querySelector('div');
+            var $div = document.querySelectorAll('div')[0];
+            
+            $div.setAttribute('style', 'width: 250px; height: 300px; background: yellow; border: 4px solid red;');
+            //$div.style.backgroundColor = 'red';
+
+            
+        })();        
+/*
+        
+A forma recomendada é alterar a classe:
+
+        b)  element.classList;
+        
+        element.classList.add (adiciona uma classe)
+        element.classList.remove (remove uma classe)
+        element.classList.toggle (troca de classe)
+        element.classList.contains (verifica se existe uma classe no elemento)
+        
+*/
+        (function(){
+            'use strict';
+            
+            var $div = document.querySelectorAll('div')[0];
+            
+            console.log($div.classList);
+            //DOMTokenList(3) ["aGetter", "teste", "churros", value: "aGetter teste churros"]
+            
+            console.log($div.classList.contains('churros')); // true
+            
+            $div.classList.add('anotherGetter');
+            $div.classList.remove('churros');
+            $div.classList.toggle('anotherGetter');
+            
+            
+            $div.addEventListener('click', function(){
+                this.classList.toggle('anotherGetter');
+            }, false);
+            // Com TOGGLE, se a classe já existir, ele remove. Se não, ele acrescenta.
+            
+        })();        
+        
+        
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!--
+// OPERADOR VÍRGULA
+// ESTRUTURAS CONDICIONAIS: TERNÁRIO
+// ESTRUTURAS CONDICIONAIS: SWITCH
+// ESTRUTURAS DE REPETIÇÃO / LOOPS: WHILE
+
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 6: Operador Vírgula</title>
+</head>
+<body>
+  <h1>Aula 6: Operador Vírgula</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+    
+    // OPERADOR VÍRGULA
+
+        // em declarações de variáveis
+        
+        var a, b = 2, c; // escrita menos legível, não recomendada!
+        function myFunc() {
+            var x = 0;
+            return (x += 1, x);
+            // return acima é a mesma coisa que o operador de pré-incremento abaixo:
+            // return ++x;
+        }
+        
+        // ESCOPOS 
+        function myFun(){
+            var a = 1,b = 2, c = 3;
+            return [a,b,c];
+        }
+        return a;
+        // not defined
+        
+        
+        
+    // ESTRUTURAS CONDICIONAIS: TERNÁRIO
+        
+        var x = null === false ? 1 : 2;
+        x
+        // 2
+
+    // ESTRUTURAS CONDICIONAIS: SWITCH
+        
+        function myFun(x){
+            switch(x) {
+                case 1:
+                    console.log('x é 1');
+                    break; // Não esquecer do BREAK!
+                case 2:
+                    console.log('x é 2');
+                    break; // Sem ele, a condição é ignorada.
+                default:
+                    console.log('x não é nem 1 nem 2');
+            }
+        }
+        myFun();
+        // x não é nem 1 nem 2
+        myFun(1);
+        // x é 1
+        
+    // ESTRUTURAS DE REPETIÇÃO / LOOPS: WHILE
+        
+    var counter = 0;
+        
+    while (counter < 10) {
+        console.log(counter);
+        counter++;
+    }        
+    // 0
+    // 1
+    // 2
+    // 3
+    // 4
+    // 5
+    // 6
+    // 7
+    // 8
+    // 9
+    // 9 (último retorno, apenas uma repetição)
+        
+    while (counter < 10) {
+        console.log(counter);
+        counter++;
+    }          
+        
+    !!0
+    // false (valor booleano de zero é false)
+    // zero tem valor false, essa condição '0' é falsa sempre
+        
+    while (0) { 
+        console.log
+        ('zero'); // nunca haverá esse print de 'zero'
+    }
+        
+        // reverse counter
+        
+        var counter = 10;
+        
+        while (counter === 0){
+            console.log(counter--);
+        }
+        
+        while (counter > 0){
+            console.log(counter--);
+        }        
+        // 10
+        //  9
+        //  8
+        //  7
+        //  6
+        //  5
+        //  4
+        //  3
+        //  2
+        //  1
+        
+        while (counter--) {
+            console.log(counter);
+        }
+        //  9
+        //  8
+        //  7
+        //  6
+        //  5
+        //  4
+        //  3
+        //  2
+        //  1    
+        //  0    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 4: Truthy/Falsy + Ternary Operator</title>
+</head>
+<body>
+  <h1>Aula 4: Truthy/Falsy + Ternary Operator</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+    
+1 === 'b'
+// false
+
+        
+        
+var teste;
+        
+if(1) { teste = true;} else { teste = false;}
+// true
+
+
+        
+// Ou seja, o zero é um número MAS retorna falso.    
+        
+// false
+// undefined
+// null
+// NaN
+// 0
+// -0
+// ' ' ou " "
+
+if(undefined) { teste = true;} else { teste = false;}
+// false
+
+if(null) { teste = true;} else { teste = false;}
+// false
+
+if(NaN) { teste = true;} else { teste = false;}
+// false
+
+if(' ') { teste = true;} else { teste = false;}
+// false
+
+if(false) { teste = true;} else { teste = false;}
+// false
+        
+if(-0) { teste = true;} else { teste = false;}
+// false
+        
+if(0) { teste = true;} else { teste = false;}
+// false
+
+if('0') { teste = true;} else { teste = false;}
+// true
+        
+if(true) { teste = true;} else { teste = false;}
+// true
+
+if([]) { teste = true;} else { teste = false;}
+// true
+
+if({}) { teste = true;} else { teste = false;}
+// true        
+        
+// ATALHO PARA DESCOBRIR A REPRESENTAÇÃO BOOLEANA SEM UTILIZAR IF:
+!!
+// EXEMPLO 1. Para 'converter' o valor booleano, isto é, obter a sua negação booleana:
+!true
+//false  
+!1 //(igual a true)
+//false
+
+// EXEMPLO 2. Para saber exatamente qual é o valor booleano:
+!!true
+//true
+!!0 // (igual a false)
+//false    
+!!'fernando'
+//true
+
+// CONDICIONAL TERNÁRIO:
+condition ? true : false;
+// EXEMPLO:
+1 === 2 ? true : false;
+// false
+
+// ESCOPO DE VARIÁVEIS E FUNÇÕES
+// É o local onde você declara a variável ou função: global ou local.
+        
+        
+
+
+
+    
+    </script>
+</body>
+</html>
+
+
+
+
+
+

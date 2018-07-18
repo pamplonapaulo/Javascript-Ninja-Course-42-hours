@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 31 - innerHTML, insertAdjacentHTML, Date, Math</title>
+</head>
+<style>
+    
+    .aGetter {
+        color: blue;
+        font-size: 3rem;
+        opacity: 1;
+    }
+    
+    .anotherGetter {
+        opacity: 0.3;
+    }
+    
+    textarea {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    form, div[data-js="main-secutiryIssues"] {
+        float: left;
+        width: 50%;
+    }
+    
+</style>
+<body>
+    <h3>innerHTML</h3>
+
+    <div class="main" data-js="main-innerHTML">
+       <h3>Título</h3>
+       <p>Parágrafo</p>
+    </div>
+    <br>
+    <form action="/" method="get" data-js="form">
+       <textarea type="text" data-js="textarea" rows="10" cols=25></textarea>
+       <button type="submit" data-js="submit">Enviar</button>
+    </form>   
+    <div class="main" data-js="main-secutiryIssues">
+       <h3>Issues</h3>
+    </div>
+     
+    <div class="main">
+       <h3 data-js="main-insertAdjacentHTML">Adja</h3>
+    </div>
+     
+     
+      
+    <script>
+/*    
+            * * * * * * * * * * * * * * * * * * * * * *
+            *                                         *
+            *    ÍNDICE DA AULA 31                    *
+            *                                         *
+            *    1. .innerHTML                        *
+            *                                         *
+            *      a - getter .innerHTML              *
+            *      b - setter .innerHTML              *
+            *      c - .textContent                   *
+            *      d - security issues                *
+            *                                         *
+            *    2. insertAdjacentHTML                *
+            *                                         *
+            *      a - insertAdjacentHTML             *
+            *      b - .outerHTML                     *
+            *                                         *
+            *    3. Date object: new Date();          *
+            *                                         *
+            *      0 - var myDate = new Date();       *
+            *      a - Date.now();                    *
+            *      b - myDate.getDate();              *
+            *      c - myDate.getDay();               *
+            *      d - myDate.getFullYear();          *
+            *      e - myDate.getYear();              *
+            *      f - myDate.getHours();             *
+            *      g - myDate.getMilliseconds();      *
+            *      h - myDate.getMinutes();           *
+            *      i - myDate.getMonth();             *
+            *      j - myDate.getSeconds();           *
+            *      k - myDate.getTime();              *
+            *                                         *
+            *    4. Math object                       *
+            *                                         *      
+            *       a - Math.PI;                      *
+            *       b - Math.abs();                   *
+            *       c - Math.ceil();                  *
+            *       d - Math.floor();                 *
+            *       e - Math.round();                 *
+            *       f - Math.sqrt(9);                 *
+            *       g - Math.cbrt(9);                 *
+            *       h - Math.max(0,2,5,22,5,111);     *
+            *       i - Math.min(0,2,5,22,5,111);     *
+            *       j - Math.max.apply(Math, var);    *
+            *       h - Math.min.apply(Math, var);    *
+            *       j - Math.random();                *
+            *                                         *
+            *    5. Documentação/ sources             *
+            *                                         *
+            *       a - devdocs.io                    *
+            *                                         *
+            *                                         *
+            * * * * * * * * * * * * * * * * * * * * * *
+
+    
+    
+    
+    
+    
+    
+
+
+
+1. innerHTML
+
+É um getter e um setter. Retorna a string do DOM node que você seleciona.
+
+*/   
+(function (){
+    'use strict';
+    
+    var $div = document.querySelector('[data-js="main-innerHTML"]');
+    
+    // a)   GETTER innerHTML
+    
+    console.log($div);
+    // <div data-brackets-id="32" class="main" data-js="main">...</div>
+    
+    console.log(typeof $div);
+    // object
+    
+    console.log(Object.prototype.toString.call($div));
+    // [object HTMLDivElement]
+
+    console.log($div.innerHTML);
+    //    <h1 data-brackets-id="44">Título</h1>
+    //    <p data-brackets-id="45">Parágrafo</p>
+    
+    console.log(typeof $div.innerHTML);
+    // string
+    
+    
+    // b)   SETTER innerHTML
+    
+    $div.innerHTML = '<h3>Paulo Teste 0<h3>'; // 'Paulo Teste 0'
+    // Apesar de ser uma string (estar entre aspas), ele converte para HTML e substitui o conteúdo previamente setado.
+    // A string passada é convertida em elemento HTML.
+    
+    
+    // c)   .textContent (review)
+    
+    $div.textContent = '<h3>Paulo Teste 1<h3>'; // '<h1>Paulo Teste<h1>'
+    // Aqui o comportamento é diferente. As tags dentro da nossa string são também convertidas em texto, não são reconhecidas como tags de HTML.
+    // A string passada é convertida em mero texto.
+    
+    // OBS: E para incrementar o HTML existente sem remover nada, mas acrescentando?
+    $div.innerHTML += '<h3>Incremento Exemplo 1</h3>';
+    // ou:
+    $div.innerHTML = $div.innerHTML + '<h3>Incremento Exemplo 2</h3>';
+    
+    
+    // d)   security issues
+    
+    var $issues = document.querySelector('[data-js="main-secutiryIssues"]');
+    var $textarea = document.querySelector('[data-js="textarea"]');
+    var $form = document.querySelector('[data-js="form"]');
+    
+    $form.addEventListener('submit', function(e){
+        e.preventDefault(); // para não deixar que a ação de submit submeta o formulário.
+        $issues.innerHTML = $textarea.value;
+        
+    }, false);
+    
+    // 
+    // Todo HTML é renderizado. Se ele é renderizado, posso até incluir uma tag de imagem <img> que ele irá renderizar ela também. Se a imagem for uma imagem inválida qualquer, será gerado um erro dizendo que a imagem não foi encontrada.
+    // Em javascript é possível trabalhar com eventos dentro das TAGs de HTML. Uma das propriedades de eventos dentro das tags é a 'onerror', que roda um script em caso de erro.
+    // Vamos supor que eu entre em 'textarea' o seguinte conteúdo:
+    
+    /*
+    <h1>coco</h1>
+    <p>cococococ</p>
+    <img src="x" onerror="alert(1)"/>
+    */
+    
+    // Será gerado um alerta na página.
+    
+    
+    // Se você aguardar a entrada de um usuário e você pegar isso e jogar no seu HTML sem tratar, o usuário (mal intencionado) poderá rodar qualquer tipo de script via 'onerror'. Ele poderá fazer praticamente qualquer coisa no 'document':
+    
+    /*
+    <h1>coco</h1>
+    <p>cococococ</p>
+    <img src="x" onerror="document.body.innerHTML = ''"/>
+    */
+    
+    // o input acima causaria o esvaziamento completo do document.body.
+    
+    // Esses exemplos acima são simples. Mas o usuário poderia fazer qualquer coisa. Ele poderia fazer uma requisição de Ajax, etc. - Se você estiver pegando esses dados e salvando-os. Quando você for acessar esse valor, você vai executar o script que estiver nele. E então isso poderá lhe causar inúmeros e graves problemas.
+    
+    // É muito perigoso você deixar o usuário fazer uma entrada de HTML e você não tratar essa entrada.
+    
+    // Não basta tratar no front-end. Trate-a também no back-end. Verifique se não tem script tags e events, antes de você mostrar isso na tela. Nunca confie no que o usuário irá inputar no seu site.
+    
+    // Você pode usar o 'innerHTML', desde que seja você quem estiver fazendo essa entrada de dados.
+    
+    // Se depender de um usuário realizando essa entrada, você tem que tratar esse input, para evitar que você sofra um ataque de XSS, por exemplo.
+})();
+        
+        
+        
+        
+        
+/*
+2. insertAdjacentHTML
+
+    // a)   .insertAdjacentHTML (pos, text)
+
+Esse método faz basicamente o mesmo que o HTML faz, porém você pode escolher a posição onde ele será inserido.
+
+Tipos de parâmetros de posição ('pos'):
+1.beforebegin
+2.afterbegin
+3.beforeend
+4.afterend
+
+Exemplo:
+<p>foo</p>
+
+Como ficaria:
+<!-- beforebegin -->
+<p>
+<!-- afterbegin -->
+foo
+<!-- beforeend -->
+</p>
+<!-- afterend -->
+
+Já o parâmetro 'text' é o HTML em si em formato string:
+*/
+(function(){
+    'use strict';
+    var $adja = document.querySelector('[data-js="main-insertAdjacentHTML"]');
+    
+    $adja.insertAdjacentHTML('beforebegin', '<h4>1</h4>');
+    $adja.insertAdjacentHTML('afterbegin', '<h4>2</h4>');
+    $adja.insertAdjacentHTML('beforeend', '<h4>3</h4>');
+    $adja.insertAdjacentHTML('afterend', '<h4>4</h4>');
+    
+    /*
+    
+    RESULTADO:
+    
+        <h4>1</h4> // beforebegin added
+        
+            <h3 data-js="main-insertAdjacentHTML">
+            
+                <h4>2</h4> // afterbegin added
+                
+                    Adja
+                    
+                <h4>3</h4> // beforeend added
+                
+            </h3>
+            
+        <h4>4</h4> // afterend added
+        
+    */
+    
+    // Os mesmos problemas de segurança com o innerHTML existem aqui também no insertAdjacentHTML.
+    
+    // Precisa ser uma string com o HTML dentro da string. Não adianta tentar adicionar uma variável.
+    
+    
+    // OBS:
+    console.log($adja); // traz o própria tag HTML do elemento.
+    console.dir($adja); // use dir para verificar as propriedades e métodos disponíveis para usar naquele objeto.
+    
+    // b)   .outerHTML
+    
+    // É  a representação em string do objeto HTML selecionado. Portanto, caso você queira utilizar uma variável a ser inserida via 'insertAdjacentHTML', você pode chamar o método 'outerHTML'. Dessa forma:
+    var $form = document.querySelector('[data-js="form"]');
+    
+    $adja.insertAdjacentHTML('beforebegin', $form.outerHTML);
+    // Assim é possível. Nós duplicamos a form.
+    
+    
+})();        
+        
+        
+        
+        
+/*
+3. Date object
+
+É um construtor:    var date = new Date;
+
+Parâmetros opcionais:   new Date(year, month, day, hour, min, sec, milliseconds);
+
+*/
+
+//console.log('');
+        
+(function (){
+    'use strict';
+    var date = new Date;
+    console.log(date);
+    
+    var year = 2018;
+    var month = 6;
+    var day = 15;
+    var hour = 10;
+    var min = 15;
+    var sec = 0;
+    var milliseconds = 0;
+    
+    // ATENÇÃO: Meses começam no '0'. Portanto: Janeiro = 0, Dezembro = 11.
+
+    var date2 = new Date(year, month, day, hour, min, sec, milliseconds);
+    console.log(date2);
+    
+    // UMA VANTAGEM da contagem de meses ter base zero é:
+    
+    var months = [
+        'janeiro',  //index 0
+        'fevereiro',
+        'março',
+        'abril',
+        'maio',
+        'junho',
+        'julho',
+        'agosto',
+        'setembro',
+        'outubro',
+        'novembro',
+        'dezembro'  //index 11
+    ];
+    
+    // É possível pegar o mês a partir do índice dele no array:
+    var myMonth = months[4];
+    
+    
+    // Quando você busca um dia que não existe, (por exemplo dia 31 / Set / 2018), o javascript te dará automaticamente a data seguinte (1 / Out / 2018).
+    
+    // Quando você busca um mês que não existe, (por exemplo dia 31 / 13 / 2018), o javascript te dará automaticamente a data seguinte (31 / 2 / 2019).
+    
+    
+    // Consultar documentação para conehcer outras formas de instanciar o objeto Date.
+    
+    
+    // Date Now - Método estático:
+
+    // Representa o número de milisegundos que se passaram desde 1/1/1970 (meia-noite) do horário UTC, até agora.
+    
+    Date.now();
+    console.log('Milisegundos desde 1/1/1970',  Date.now());
+    // 1531244747697
+    
+    // Traz esse valor exatamente no momento específico em que for executado. Ou seja, nunca será o mesmo.
+    
+    // Converções para o Date.now():
+    
+    // Para segundos: / 1000
+    // (mil milisegundos = 1 segundo).
+    console.log('Segundos desde 1/1/1970',  Date.now() / 1000);
+
+    
+    // Para minutos: / 1000 / 60
+    // (60 segundos = 1 minuto).
+    console.log('Minutos desde 1/1/1970', Date.now() / 1000 / 60);
+    
+    // Para horas: / 1000 / 60 / 60
+    // (60 minutos = 1 hora).
+    console.log('Horas desde 1/1/1970', Date.now() / 1000 / 60 / 60);
+    
+    // Para dias: / 1000 / 60 / 60 / 24
+    // (24 horas = 1 dia).
+    console.log('Dias desde 1/1/1970', Date.now() / 1000 / 60 / 60 / 24);
+
+    // Para dias: / 1000 / 60 / 60 / 24
+    // (24 horas = 1 dia).
+    console.log('Anos desde 1/1/1970', Date.now() / 1000 / 60 / 60 / 24 / 365);
+    
+    // Aplicações desse método:
+    
+    // Quanto tempo passou desde que eu fiz um 'for' ?
+    
+    var start = Date.now();
+    for (var i = 0; i < 100000; i++);
+    var end = Date.now();
+    console.log('Se passaram ' + (end - start) + ' milisegundos entre o começo e o fim do \'for\'');
+    
+    // Outros métodos:
+    
+    // (Para serem usados após instanciar o objeto):
+    
+    var dateOi = new Date();
+    console.log('getDate ', dateOi.getDate());
+    console.log('getDay (dia da semana)', dateOi.getDay()); // (domingo = 0)
+    console.log('getFullYear ', dateOi.getFullYear());
+    console.log('getYear ', dateOi.getYear()); // 0-99 = 1900-1999, 118 = 2018
+    console.log('getHours ', dateOi.getHours());
+    console.log('getMilliseconds ', dateOi.getMilliseconds());
+    console.log('getMinutes ', dateOi.getMinutes());
+    console.log('getMonth ', dateOi.getMonth()); // base 0. Não esqueça.
+    console.log('getSeconds ', dateOi.getSeconds());
+    console.log('getTime ', dateOi.getTime()); // total de milliseconds since 1970. Igual Date.now();
+    
+    console.log('teste: Date.now() X obj.getTime() ');
+    console.log('Date.now() '+ Date.now());
+    console.log(' getTime() ' + dateOi.getTime());
+    
+    // Até aqui todos são métodos 'getter'. Há também métodos 'setter', mas cabe a mim pesquisar. Não está coberto no curso.
+    
+})();
+        
+        
+        
+/*
+4. Math object
+
+Uma diferença: Ele não é um objeto que você instancia, não é um function object. Todos os métodos são estáticos, não é uma função.
+
+Math.PI;
+// 3.141592653589793
+// retorna o número PI
+
+
+
+*/        
+(function(){
+    'use strict';
+    console.log('teste');
+    
+    Math.PI;
+    // 3.141592653589793
+    
+    Math.abs();
+    // Retorna o valor absoluto de um número.
+    // Para casos onde não queremos trabalhar com números negativos.
+    Math.abs(-10);
+    // 10
+    
+    Math.ceil();
+    // Arredonda o valor sempre para cima, independente do número.
+    Math.ceil(10.1);
+    // 11
+    Math.ceil(10.9);
+    // 11
+
+    Math.floor();
+    // arredonda sempre para baixo.
+    
+    Math.floor(10.9);
+    // 10
+    
+    Math.round();
+    // Faz o arredondamento segundo a matemática comum
+    
+    Math.round(10.4);
+    // 10
+    Math.round(10.5);
+    // 11
+    Math.round(10.6);
+    // 11
+    
+    Math.round(Math.PI);
+    // 3
+    
+    Math.round(10.499999);
+    // 10
+    
+    // Raiz Quadrada ('Square Root'):
+    Math.sqrt(9);
+    // 3
+    
+    // Raiz Cúbica ('Cubic Root'):
+    Math.cbrt(27);
+    // 3 ( 3 x 3 x 3 = 27 )
+    
+    // Math.max(x1, x2, xN);
+    // Aceita infinitos parâmetros. Retorna o maior valor.
+    Math.max(0,2,5,22,5,111);
+    // 111
+    
+    // Math.min(x1, x2, xN);
+    // Aceita infinitos parâmetros. Retorna o menor valor.
+    Math.min(0,2,5,22,5,111);
+    // 0
+    
+    // ARRAYS.
+    // How to apply the cool stuff on arrays:
+    
+    var numbers = [0,2,5,22,5,111];
+    Math.max.apply(Math, numbers);
+    // 111
+    
+    Math.min.apply(Math, numbers);
+    // 0
+    
+    Math.random();
+    // Retorna um número aleatório entre 0 e 1.
+    
+    Math.random();
+    // 0.06320747232826585
+    
+    // Para um random entre 0 e 3:
+    Math.random() * 3;
+    // 2.9071428808598183
+    
+    // Para um random entre 0 e 10 e arredondado:
+    Math.round(Math.random() * 10);
+    // 10
+    Math.round(Math.random() * 10);
+    // 0
+    Math.round(Math.random() * 10);
+    // 2
+    // Etc.
+    
+})();
+   
+// OBS: Documentações
+        
+        // MDN (Mozilla)
+        // devdocs.io (tem tudo para todas as linguagens)
+        
+    </script>
+</body>
+</html>

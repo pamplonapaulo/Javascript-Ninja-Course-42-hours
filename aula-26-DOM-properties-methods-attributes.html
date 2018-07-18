@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 26 - DOM tree, properties, methods, attributes</title>
+</head>
+<!--      
+   DOM
+       Como percorrer:
+            .parentNode
+            .childNodes (array-like)
+            .firstChild
+            .lastChild
+            .nextSibling
+            .previousSibling       
+   DOM
+       Propriedades:
+            .nodeType
+            .nodeValue   
+            .nodeName 
+            .children (array-like)
+            .firstElementChild
+            .lastElementChild
+            .nextElementSibling
+            .previousElementSibling
+            .childElementCount     
+   DOM
+       Métodos:
+            .hasAttribute('something')
+            .hasAttributes()
+            .appendChild('something')   
+            .insertBefore('something')       
+            .cloneNode(boolean)
+            .hasChildNodes()
+            .removeChild(child)
+            .replaceChild(new child, old child)   
+            document.createTextNode(text)
+            document.createElement(tagName)   
+   
+   DOM
+       Atributos:
+            .element.id
+            .element.className
+            .getAttribute()
+            .setAttribute(attr, value)
+
+            EXTRA:
+            parseFloat()
+            (parseInt(), 10)
+
+       
+   
+   
+   
+   
+    
+1.  DOM: como percorrer os elementos da árvore.
+   
+   Document Object Model.
+   
+   Funciona também para outras linguagens de programação. Mas como o JS executa no momento em que o browser está sendo executado, com JS você consegue mais praticidade e velocidade na manipulação em tempo real.
+   
+   A API DOM transforma cada elemento em um nó, um node.
+   
+   A Árvore do DOM:
+   
+   DOM > 
+   Root Element <html> > Element <head> > Element <title> > text: "My Text"
+   Root Element <html> > Element <body> > Element <a> > Attribute: "href"
+   Root Element <html> > Element <body> > Element <a> > Text: "My Link"
+   Root Element <html> > Element <body> > Element <h1> > Text: "My Header"
+   
+   Percorrendo Elementos:
+   
+   .parentNode
+   pega o nó que é pai.
+-->
+<body>
+               
+    <div class="main" id="meu ID" data-js="mainAttr" data-number-1.3="1.3" data-number-2.6="2.6">
+        <!-- "Eu sou um HTML comment element" -->
+        
+        <header class="main-header">
+           
+            <h1 class="main-header__title" value="TESTE">Título da página</h1>
+            <input type="number" value="99" />
+            <br>
+            <br>
+        </header>
+          
+        <section class="main-content">
+           Texto 1
+           
+            <div class="entry">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate corrupti autem minima accusamus in labore animi ipsum placeat porro ipsa, at sed repellendus totam nesciunt voluptates, suscipit eos nihil dignissimos!</p>
+            </div>
+            Texto 2
+        </section>
+
+        <footer class="main-footer">
+            <small class="main-footer__copyright">
+                2015 &copy; Todos os direitos reservados
+            </small>
+        </footer>
+    </div>
+       
+       
+       <script>
+        
+        // Como podemos alcançar/manipular tudo isso?
+        
+        // Selecione o node desejado.
+        
+        // OBS: não é recomendado selecionar via classe ou ID, mas estamos fazendo nestes exemplos.
+        
+        (function(){
+            'use strict';
+            
+            
+            
+            var $main = document.querySelector('.main');
+            
+            // .parentNode
+            console.log($main.parentNode);
+            
+            // .childNodes
+            console.log($main.childNodes);
+            // NodeList(7) [text, header.main-header, text, section.main-content, text, footer.main-footer, text]
+            
+            // Comos e vê acima, cada quebra de linha no HTML também é contada como um node child.
+            // Um texto solto entre as tags será contado.
+            
+            // .firstChild
+            console.log($main.firstChild);
+            // #text (o que é um espaçamento vazio na verdade)
+            // Se removermos o espaçamento:
+            // .main-header
+            
+            // .lastChild
+            console.log($main.lastChild);
+            // #text (o que é um espaçamento vazio na verdade)
+            // Se removermos o espaçamento:
+            // footer.main-footer
+            
+            // .nextSibling
+            console.log($main.nextSibling);
+            // #text (o que é um espaçamento vazio na verdade)
+            // Se removermos o espaçamento:
+            // <script>...<//script>
+        
+            // .previousSibling
+            var $section = document.querySelector('.main-content');
+            console.log($section.previousSibling);
+            // #text (o que é um espaçamento vazio na verdade)
+            // Se removermos o espaçamento:
+            // <header class="main-header">..<//header>
+            
+            
+        
+        })();
+
+    </script>
+
+
+
+<br>
+
+
+    <script>
+        
+        // Continuação - Vídeo 2: Propriedades
+        
+        //.nodeType
+            
+        (function(){
+            'use strict';
+            
+            var $main = document.querySelector('.main');
+            
+            
+            // Abaixo uma lista de convenção do nodeType.
+            
+            // DOCUMENT: nodeType 9
+            
+            console.log(document.nodeType);
+            // 9
+            console.log(document);
+            // #document
+            
+            
+            
+            // HTML TAG ELEMENTS: nodeType 1
+            
+            console.log($main.nodeType);
+            // 1
+            console.log($main);
+            // <div data-brackets-id="75" class="main">...</div>
+            
+            
+            
+            // TEXT: nodeType 3
+            
+            console.log($main.firstChild.nodeType);
+            // 3
+            console.log($main.firstChild);
+            // #text
+            
+            
+            
+            // COMMENT: nodeType 8            
+            
+            console.log($main.childNodes);
+            // NodeList(9) [text, comment, text, header.main-header, text, section.main-content, text, footer.main-footer, text]
+            console.log($main.childNodes[1]);
+            // <!-- "Eu sou um HTML comment element" -->
+            console.log($main.childNodes[1].nodeType);
+            // 8
+            
+            // DOCUMENT FRAGMENT: nodeType 11
+            
+            
+            // Na prática, vamos sempre atribuir variáveis e evitar utilizar essa numeração, para facilitar o uso. Não será legível, não é recomendado.
+            
+            
+            
+            
+            
+            
+            // .nodeValue
+            // Conteúdo textual dos elementos #TEXT e #COMMENT
+
+            console.log($main.childNodes[1].nodeValue);
+            // "Eu sou um HTML comment element"
+            
+            
+            // Exemplo (MEU) de encadeamento destes métodos:
+            console.log($main.childNodes[2].nextSibling.childNodes[1]);
+            // <h1 data-brackets-id="514" class="main-header__title" value="TESTE">Título da página</h1>
+            // Dúvida (MINHA) para o .nodeValue deste exemplo acima:
+            console.log($main.childNodes[2].nextSibling.childNodes[1].nodeValue);
+            // null
+            // NÃO ENTENDO O MOTIVO DE "NULL"
+            
+            // Explicação:
+            // https://www.w3schools.com/jsref/prop_node_nodevalue.asp
+            // Note: If you want to return the text of an element, remember that text is always inside a Text node, and you will have to return the Text node's node value (element.childNodes[0].nodeValue).
+            
+            console.log($main.childNodes[2].nextSibling.childNodes[1].firstChild.nodeValue);
+            // Título da página
+            
+            // OUTRA dúvida (MINHA) para o .nodeValue:
+            console.log($main.childNodes[2].nextSibling.childNodes[3]);
+            // <input data-brackets-id="795" type="number" value="99">
+            console.log($main.childNodes[2].nextSibling.childNodes[3].nodeValue);
+            // null
+            // NÃO ENTENDO O MOTIVO DE "NULL"
+            
+            
+            
+            
+            
+            // .nodeName
+            console.log($main.childNodes[2].nextSibling.childNodes[3].nodeName);
+            // INPUT
+            console.log($main.childNodes[2].nextSibling.childNodes[1].nodeName);
+            // H1
+            console.log($main.childNodes[3].nodeName);            
+            // HEADER
+            console.log($main.childNodes[5].nodeName);            
+            // SECTION
+            console.log($main.nodeName);            
+            // DIV
+            
+            // DICA: Cheque no CanIUse.com quais destas features são ou não suportadas pelos browsers.
+            
+            
+            
+            
+        })();
+        
+        
+    </script>
+<!--
+
+-->
+
+<br>
+
+<script>
+
+
+console.log('Continuação - Vídeo 3: Propriedades que ignoram #text e #comment');
+// Continuação - Vídeo 3: Propriedades
+
+
+(function() {
+    'use strict';
+
+    // .children
+    // Não é padronizada pela W3Schools, mas é bem suportada pelos browsers.
+    var $main = document.querySelector('.main');
+    console.log($main.childNodes);
+    // NodeList(9) [text, comment, text, header.main-header, text, section.main-content, text, footer.main-footer, text]
+    // Mostra todos os nodes.
+    console.log($main.children);
+    // [header.main-header, section.main-content, footer.main-footer]
+    // Ou seja, trás apenas os nodes de HTML, por isso é chamada HTLM Collection.
+
+    // .firstElementChild
+    // Também não traz nodes de texto e/ou comentário. Traz somente os nodes do DOM.
+    console.log($main.firstChild);
+    // #text
+    console.log($main.firstElementChild);
+    // <header data-brackets-id="1166" class="main-header">
+
+    // .lastChild
+    console.log($main.lastChild);
+    // #text
+    // .lastElementChild
+    console.log($main.lastElementChild);
+    // <footer data-brackets-id="1417" class="main-footer">
+
+    // .nextSibling
+    console.log($main.nextSibling);
+    // #text
+    // .nextElementSibling
+    console.log($main.nextElementSibling);
+    // <script>...<//script>
+
+    // .previousSibling
+    console.log($main.childNodes[3].childNodes[3].previousSibling);
+    // #text
+    // .previousElementSibling
+    console.log($main.childNodes[3].childNodes[3].previousElementSibling);
+    // <h1 data-brackets-id="1896" class="main-header__title" value="TESTE">Título da página</h1>
+
+    // .childElementCount
+    console.log($main.childElementCount);
+    // 3
+    // É o mesmo que .children.length
+    console.log($main.children.length);
+    // 3
+    
+})();
+    
+(function (){
+    'use strict';
+    
+    // MÉTODOS
+    
+    console.log('Métodos:');
+
+    var $main = document.querySelector('.main');
+    
+    // .hasAttribute(name)
+    
+    console.log($main.hasAttribute('data-js'));
+    // true
+    console.log($main.hasAttribute('id'));
+    // false
+    console.log($main.hasAttribute('class'));
+    // true
+    
+    // .hasAttributes (any attribute)
+    
+    console.log($main.hasAttributes());
+    // true
+    console.log(document.childNodes[1].childNodes[0]);
+    // <head data-brackets-id="2511">
+    console.log(document.childNodes[1].childNodes[0].hasAttribute('data-brackets-id'));
+    // true
+    // Via Brackets, não posso fazer o teste com resultado 'false', pois o brackets insere no element esse atributo conforme demonstrado acima. Qualquer tipo de attribute será aceito.
+    
+    //.appendChild(child name)
+    
+    // Adiciona um elemento dentro (e ao fim) de outro elemento. Passe por parâmetro o elemento a ser adicionado.
+    
+    // Se feito com um elemento já existente, você altera o local deste existente.
+    
+    var $mainHeader = document.querySelector('.main-header');
+    var $mainContent = document.querySelector('.main-content');
+    //$mainContent.appendChild($mainHeader);
+    // Comando acima está desligado para não afetar o resto do código no começo do arquivo.
+    
+    
+    // .insertBefore(node, beforeWhom)
+    // 
+    var $firstText = $mainContent.firstChild;
+    
+    $mainContent.insertBefore($mainHeader, $firstText);
+    // Isto é, o comando acima faz inserir o $mainHeader antes de $firstText.
+    
+    // .cloneNode(boolean)
+    
+    var $myClone = $mainHeader.cloneNode(true);
+    // true = se desejas clonar copiando também o conteúdo do elemento
+    // false = se desejas clonar a 'casca' sem copiar o conteúdo do elemento.
+    
+    $mainContent.appendChild($myClone);
+    console.log(document.querySelectorAll('.main-header').length);
+    // 2
+    
+    // hasChildNodes()
+    // Verifica se um dado elemento tem algum node child (nó filho).
+    
+    var $h1 = $mainHeader.firstElementChild;
+    console.log($h1.hasChildNodes());
+    // true (nesse caso aqui, é apenas um nó de texto).
+    
+    
+    // .removeChild(child)
+    $mainHeader.removeChild($h1);
+    
+    // .replaceChild(new child, old child)
+    var $mainFooter = document.querySelector('.main-footer');
+    $main.replaceChild($mainHeader, $mainFooter);
+    // No caso, está tirando $mainHeader do local onde estava e substitui $mainFooter por ele.
+    
+    // document.createTextNode(text)
+    // Cria um nó de texto, depois do último elemento
+    var newTextNode = document.createTextNode('Opa! Texto!');
+    $main.appendChild(newTextNode);
+    
+    // document.createElement(tagName)
+    var paragrafo = document.createElement('p');
+    // criado dentro de uma variável
+    paragrafo.appendChild(newTextNode);
+    // inserido o texto dentro do elemento ('p') alocado nesta variável ('paragrafo')
+    $main.appendChild(paragrafo);
+    // inserido tudo isso dentro do 'main' no nosso html.
+    
+})();
+    
+(function(){
+    'use strict';
+    var $main = document.querySelector('.main');
+    
+    
+    
+    // ATRIBUTOS NO DOM - Vídeo 6 (último)
+    // Para qualquer atributo padrão de HTML.
+    // Eles são getters and setters.
+    
+    // element.id
+    console.log($main.id);
+    // meu ID
+    
+    // element.className
+    console.log($main.className);
+    // main
+    // ps: 'class' seria uma outra palavra-chave em JS.
+    
+    // Using as setter:
+    $main.className = 'arroz';
+    // Ele de fato altera o nome da classe.
+    console.log($main.className);
+    // arroz
+    
+    // getAttribute()
+    console.log($main.getAttribute('data-js'));
+    // mainAttr
+    
+    // OBS: those returns are always strings. You have to convert if you want to do math.
+    // Exemplo:
+    console.log($main.getAttribute('data-number-1.3') + $main.getAttribute('data-number-2.6'));
+    // 1.32.6
+    // Isto é, acima este 1.32.6 é o JS concatenando como strings.
+    
+    // Uma forma de converter: parseFloat()
+    // OBS: estes números aceitam decimais.
+    console.log(parseFloat($main.getAttribute('data-number-1.3')) + parseFloat($main.getAttribute('data-number-2.6')));
+    // 3.9000000000000004
+    
+    // (parseInt(), 10)
+    // converte para números inteiros.
+    console.log(parseInt($main.getAttribute('data-number-1.3'), 10) + parseInt($main.getAttribute('data-number-2.6'), 10));
+    // 3
+    // Ignora o número quebrado e soma apenas os números inteiros.
+    
+    // .setAttribute(attr, value)
+    // Modifica ou cria um novo atributo
+    
+    $main.setAttribute('data-js', 'main-dataJS');
+    console.log($main.getAttribute('data-js'));
+    // main-dataJS
+    $main.setAttribute('data-SUPERNOVO', 'SUPERNOVO');
+    console.log($main.getAttribute('data-SUPERNOVO'));
+    // SUPERNOVO
+    
+    
+    
+    
+})();            
+    
+    
+    
+    
+    
+</script>
+
+
+   <br>
+   <br><br>
+   
+    
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 27 - Revisão API do DOM</title>
+</head>
+<body>
+               
+    <div class="main" id="meu ID" data-js="mainAttr" data-number-1.3="1.3" data-number-2.6="2.6">
+        
+        <header class="main-header">
+            <h1 class="main-header__title" value="TESTE">Título da página</h1>
+<!--            <img style="width: 300px" src="lucinda.jpg" alt="imagem" />-->
+        </header>
+          
+        <section class="main-content">
+           Texto 1
+            <!--  comment  -->
+            <div class="entry">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate corrupti autem minima accusamus in labore animi ipsum placeat porro ipsa, at sed repellendus totam nesciunt voluptates, suscipit eos nihil dignissimos!</p>
+            </div>
+            Texto 2
+        </section>
+
+        <footer class="main-footer">
+            <small class="main-footer__copyright">
+                2015 &copy; Todos os direitos reservados
+            </small>
+        </footer>
+    </div>
+
+<!--
+            * * * * * * * * * * * * * * * * * * * * * *
+            *                                         *
+            *    ÍNDICE DA AULA 27                    *
+            *                                         *
+            *    1. DOM (revisão da aula passada)     *
+            *                                         *
+            *      a - árvore: nodes                  *
+            *      b - árvore: elements               *
+            *      c - métodos                        *
+            *      d - atributos html                 *
+            *                                         *
+            *    2. DOCUMENT FRAGMENT                 *
+            *                                         *
+            *    3. EVENTOS                           *
+            *                                         *
+            *      a - document.DOMContentLoaded      *
+            *      b - window.load                    *
+            *                                         *
+            *    4. TÉCNICAS NINJA                    *
+            *                                         *
+            *      a - Copiar arrays                  *
+            *      b - Descobrir o tipo real          *
+            *                                         *
+            *                                         *
+            * * * * * * * * * * * * * * * * * * * * * *
+                     
+    1. A árvore do DOM
+    
+    Cada elemento da árvore é um nó. Esses nós podem ser um elemento, um nó de texto, um nó de comentário, o próprio nó do documento, etc.
+
+    Quando você os manipula, você consegue uma node-list. E quando tem um grupo de elementos de HTML você tem uma HTMLCollection, manipulados como Array-like.
+      
+    a)    TODOS OS NODES:
+
+            .childNodes
+
+            .firstChild
+            .lastChild
+
+            .nextSibling
+            .previousSibling
+
+            .nodeName
+            .nodeType
+            .nodeValue
+      
+    b)    SOMENTE ELEMENTOS:
+
+            .children
+            .parentNode
+
+            .firstElementChild
+            .lastElementChild
+
+            .nextElementSibling
+            .previousElementSibling
+
+            .childElementCount (children.length)
+
+            .hasAttribute(attr)
+
+            .hasAttriburtes()
+            .appendChild(child)
+            .insertBefore(node, beforeWhom)
+            .cloneNode(cloneChildren? (boolean))
+                => O parâmetro dele é um valor booleano que você vai passar true/false para saber se quer clonar também os filhos daquele nó (true) ou só a casca, isto é, somente a tag (false).
+
+            .hasChildNodes()
+            .removeChild(child)
+            .replaceChild(new, old)
+    
+    
+    c)    MÉTODOS:
+    
+            document.createTextNode(text)
+            document.createElement(tagName)
+    
+    
+    d)    ATRIBUTOS HTML:
+    
+            element.id
+            element.className
+            element.value
+            element.href (para links)
+            element.title
+            element.src
+            Etc.
+
+            .getAttribute(attr)
+            .setAttribute(attr, value)
+        
+        
+    2. MANIPULAÇÃO COM PERFORMANCE
+            
+        É muito lento fazer manipulação de DOM. Quando você modifica qualquer elemento da página, o browser renderiza tudo novamente.
+        
+        document.createDocumentFragment()
+        
+        Portanto, com o recurso (apresentado acima) você cria um fragmento, um documento em branco para que você possa manipular nodes sem quebrar o documento original. Ajusta o fluxo de todos os elementos para que fiquem na posição correta. Quando você termina a manipulação dos nodes, eles são incluídos no HTML. Assim, o browser tem menos trabalho. Melhor é a performance.
+        
+        Não tem parent node. É um documento em branco:
+        .parentNode === null
+        
+        
+        DICA: Sempre que você for manipular o DOM, manipule dessa forma. Manipule via createDocumentFragment() e depois que terminar insira dentro do documento.
+-->
+    <script>
+        (function(){
+            'use strict';
+            
+            var fragment = document.createDocumentFragment();
+            var childP = document.createElement('p');
+            var textChildP = document.createTextNode('Texto da tag P');
+            
+            childP.appendChild(textChildP);
+            fragment.appendChild(childP);
+            
+            document.body.appendChild(fragment);
+         })();
+    </script>
+    
+
+<!--
+    3. EVENTOS
+    
+    A posição do <script> dentro do <!DOCTYPE html> importa.
+    Ele deve ser inserido no final.
+    Se no exercício acima tivéssemos inserido o <script> acima do body e não no fim, então o script já teria sido carregado antes de poder ler os prórpios elementos do body, antes que eles existam na tela. Como resolver isso?
+    
+    a)    document.DOMContentLoaded
+    
+    O document dispara esse evento assim que todo o documento já tiver sido carregado, porém independente de conteúdo interno do HTML, como, por exemplo, uma imagem muito pesada que ainda não terminou de baixar. As tags em si são carregadas independente destes conteúdos extras.
+    
+    Basicamente, utilizamos quando precisamos maipular elementos HTML e a gente não espera que o carregamento deles esteja totalmente concluído, como uma imagem ainda sendo carregada.
+-->
+<script>
+    (function (doc){
+        'use strict';
+        
+        function afterDomContentLoaded(){
+            
+            alert('The alert itself is NOT afterDomContentLoaded');
+                        
+            var fragment = doc.createDocumentFragment();
+            var childP = doc.createElement('p');
+            var textChildP = doc.createTextNode('SEGUNDO TEXTO');
+            
+            childP.appendChild(textChildP);
+            fragment.appendChild(childP);
+            
+            doc.body.appendChild(fragment);
+        }
+        
+        doc.addEventListener('DOMContentLoaded', afterDomContentLoaded, false);
+        
+        /*
+        ATENÇÃO:
+        
+        Coloque as <script> acima do <body> para ter a demonstração apropriada dessa aula. Isto é, a partir do uso de 'DOMContentLoaded', nosso <script>, mesmo mal posicionado, só será executado após a leitura de todo o <!DOCTYPE html>. Tudo funcionaria mesmo com o mal posicionamento do <script>.
+        */
+    })(document);
+    
+</script>
+<!--
+    OBSERVAÇÃO:
+    
+    Com o HTTP1 (versão 1.1), utilizado na maioria dos browsers e servidores, o próprio HTTP1 faz que todo o conteúdo do script seja executado antes de seguir com o carregamento do restante do documento. Se o script for muito grande, o site irá demorar muito para carregar. Portanto, a boa prática é que a script tag seja posicionada no fim do documento, antes do fechamendo do <body>. Ele vai executar sempre depois que o DOM estiver carregado.
+    
+    Porém, e se eu quiser que o browser termine primeiro de carregar todas as imagens?
+    
+    b)    window.load
+    
+    Desde que o carregamento não seja assíncrono, ele esperará tudo que está dentro do Window carregar primeiro, para então disparar o evento.
+-->
+
+
+<h1>LAST ELEMENT</h1>
+<img style="width: 300px" src="lucinda.jpg" alt="imagem" />
+<script>
+   
+    (function(doc){
+        'use strict';
+        
+        function AfterWindowLoaded(){
+            alert('Alerta rodado depois do load de window');
+        }
+        
+        window.addEventListener('load', AfterWindowLoaded, false);
+        
+        
+    })(document);
+    
+</script>
+
+<!--
+    4. TÉCNICAS NINJA
+    
+    Técnicas do Daciuk para quando precisarmos fazer algumas 'maracutais' em Javascript.
+    
+    a)    Array.prototype.slice.call (Como copiar arrays)
+    
+    Utilizando o método SLICE para facilmente copiar um array inteiro, sem que tenham a mesma referência. Cópias de valor booleano FALSE.
+
+-->
+<script>
+   
+    (function(doc){
+        'use strict';
+        
+        var arr = [ 1 , 2 , 3 , 4 , 5 ];
+        
+        var arr2 = arr;
+        console.log(arr, arr2, arr === arr2);
+        // true
+        // Isto é, acima é uma referência. Arr e Arr2 apontam para o mesmo array.
+        
+        var arrCopy = arr.map(function(item) {
+            return item;
+        });
+        console.log(arr, arrCopy, arr === arrCopy);
+        // false
+        // Isto é, temos agora referências distintas.
+        
+        // AGORA COM SLICE:
+        var arrCopia = arr.slice(2,3);
+        // REVIEW: slice (startIndex, finalIndexLessOne). Sem o segundo parâmetro, ele pega do startIndex até o fim.
+        console.log(arr, arrCopia, arr === arrCopia);
+        // [1, 2, 3, 4, 5] [3] false
+        
+        var arrMinhaCopia = arr.slice(0);
+        // Com '0' como parâmetro, ele pega do índice 0 até o fim. Ele pega tudo.
+        var arrMinhaCopia = arr.slice();
+        // O caso do anterior vale para o parênteses em branco.
+        console.log(arr, arrMinhaCopia, arr === arrMinhaCopia);
+        // [1, 2, 3, 4, 5] [1, 2, 3, 4, 5] false
+        
+        // CÓPIAS DE ARRAY-LIKE:
+        var $divs = document.querySelectorAll('div');
+        var $divsCopy = Array.prototype.slice.call($divs);
+        console.log($divs, $divsCopy, $divs === $divsCopy);
+        // [div#meu ID.main, div.entry] [div#meu ID.main, div.entry] false
+        
+    })(document);
+    
+</script>
+<!--
+    
+    b)    Object.prototype.toString,call() (Como saber o tipo de dado real)
+    
+    Uma vez que typeof funciona apenas para tipos primitivos. Daciuk nos apresenta aqui uma alternativa para descobrirmos os tipos mais avançados.
+    
+-->
+<script>
+   
+    (function(doc){
+        'use strict';
+        
+        var arr = [ 1, 2, 3];
+        
+        var meuArr = [1];
+        
+        
+        console.log(typeof arr);
+        // object (Via typeof, não tem como saber a diferença entre array e objeto)
+        
+        console.log([ 1 , 2 , 3 , 4 , 5 ].toString());
+        // 1,2,3,4,5 (Isto é, apenas converteu para string.)
+        
+        console.log({pro1: 1, prop2: 2}.toString());
+        // [object Object]
+        
+        console.log(Object.prototype.toString.call(arr));
+        //  [object Array] (Ah-há! Agora conseguimos discernir Array de Objects)
+        
+        function myFunc(){ }
+        console.log(Object.prototype.toString.call(myFunc));
+        //  [object Function]
+        
+        function myArgFunc(){
+            console.log(Object.prototype.toString.call(arguments));
+        }
+        myArgFunc();
+        //  [object Arguments]
+        
+        // Portanto, essa é a forma mais segura de pegar um tipo de objeto. Dica de function:
+        function tellMyType(obj){
+            console.log('I am a ', Object.prototype.toString.call(obj));
+        }
+        tellMyType(function(){});
+        // I am a  [object Function]
+        tellMyType([ 1, 2, 3]);
+        // I am a  [object Array]
+        tellMyType(function(){});
+        // I am a  [object Function]
+        tellMyType({pro1: 1, prop2: 2});
+        // I am a  [object Object]
+        
+        console.log('um novo teste: ', Object.prototype.toString.call(1) );
+        
+        
+        
+        
+        // E ainda:
+        function whatAmI(obj) {
+            return Object.prototype.toString.call(obj);
+        }
+        
+        function isArray(myObj){
+            return whatAmI(myObj) === '[object Array]';
+        }
+        console.log(isArray([ 1, 2, 3]));
+        // true
+        
+        function isObject(myObj){
+            return whatAmI(myObj) === '[object Object]';
+        }
+        console.log(isObject({pro1: 1, prop2: 2}));
+        // true        
+        
+        function isNumber(myObj){
+            return whatAmI(myObj) === '[object Number]';
+        }
+        console.log(isNumber(2));
+        // true 
+        
+        
+        
+    })(document);
+    
+</script>
+
+
+
+</body>
+</html>

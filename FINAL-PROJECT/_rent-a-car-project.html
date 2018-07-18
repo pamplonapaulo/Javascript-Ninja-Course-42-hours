@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto Final</title>
+</head>
+
+   
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+   
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:100,400,700,900');
+        
+        
+        /*************************************************************************
+        RESET CSS
+        **************************************************************************/
+        
+                
+        /* http://meyerweb.com/eric/tools/css/reset/ 
+           v2.0 | 20110126
+           License: none (public domain)
+        */
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+        /*************************************************************************
+        MAIN CSS
+        **************************************************************************/
+        body {
+            font-family: 'Encode Sans Condensed', sans-serif;
+            --yellow: rgb(242,233,127);
+            --pink: rgb(175,112,216);
+            --purple: rgb(94,84,154);
+            --darkpurple: rgb(68,40,115);
+            color: var(--yellow);            
+            background: var(--purple);
+        }        
+        .container {
+            position: relative;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: var(--darkpurple);
+        }
+        .company {
+            position: relative;
+            width: 100%;
+        }
+        .company h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .company h5 {
+            font-size: 1.5rem;
+        }
+        section h5 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 200px;
+        }       
+        .cadastro {
+            height: 20vh;
+            height: 60vh;
+        }
+        form {
+            margin-top: 8rem;
+        }
+        form label {
+            float: left;
+            clear: both;
+            width: 60%;
+            margin: auto 20%;
+            margin-bottom: 0.3rem;
+            margin-top: 1.2rem;
+        }
+        form input {
+            float: left;
+            clear: both;
+            width: 60%;
+            height: 1.5rem;
+            margin: auto 20%;
+            border-width: 0px;
+            padding: 0;
+        }
+        form input[type="submit"] {
+            float: right;
+            max-width: 200px;
+            width: 60%;
+            height: 2rem;
+            margin: auto 20%;
+            margin-top: 2rem;
+            background: var(--yellow);
+            color: var(--darkpurple);
+            border:none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all .5s;
+        }        
+        form input[type="submit"]:hover {
+            background: var(--pink);
+            color: var(--yellow);
+        }        
+        
+        /*************************************************************************
+        DISPLAY SECTION
+        **************************************************************************/
+        
+        .display {
+            min-height: 50vh;
+            min-width: 300px;
+        }
+        
+        .display ul {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .display ul li {
+            display: inline-block;
+            height: 172px;
+            max-width: 20rem;
+            min-width: 18rem;
+            margin: 0.75rem
+        }       
+        
+        /*************************************************************************
+        CARDS BOTH SIDES
+        **************************************************************************/
+        .display ul li div[data-js="flip-btn"] {
+            transition: .2s all ease;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            z-index: 99;
+            position: absolute;
+            margin-left: 15.5rem;
+            text-align: left;
+            background-color: rgba(68,40,115, .7);
+            padding-top: 0.2rem;
+        }
+        .display ul li div[data-js="flip-btn"]:hover {
+            background-color: rgba(68,40,115, .9);
+            transform: scale(1.2);
+        }
+        .display ul li div[data-js="flip-btn"] i {
+            transition: .2s all ease;
+            transform: rotate(90deg);
+            font-size: 2.3rem;        
+            color: rgba(242,233,127, 0.7);
+        }
+        
+        .display ul li div[data-js="flip-btn"]:hover i {
+            text-shadow: 2px 2px 2px black;
+            color: var(--yellow);
+        }        
+        
+        /*************************************************************************
+        CAR STATUS 
+        **************************************************************************/
+        /* isAvailable */
+        .display ul li.isAvailable .my_front h6:last-child,
+        .display ul li.isAvailable div.my_back h6.status-icon {
+            color: greenyellow;
+            background: rgba(0,255,0,.5);
+            border: 5px solid greenyellow;
+            /*<i class="material-icons">vpn_key</i>*/
+        }
+        
+        /* isRented */
+        .display ul li.isRented .my_front h6:last-child,
+        .display ul li.isRented div.my_back h6.status-icon {
+            background: rgba(0,0,0,1);
+            border: 5px solid rgba(255,255,255,.5);
+            color: rgba(255,255,255,.5);
+            /*<i class="material-icons">block</i>*/
+        }
+
+        /* isDelayed */
+        .display ul li.isDelayed .my_front h6:last-child,
+        .display ul li.isDelayed div.my_back h6.status-icon {
+            color: var(--yellow);
+            background: darkred;
+            border: 5px solid var(--yellow);
+            /*<i class="material-icons">alarm</i>*/
+        }
+        
+        /* isFixing */
+        .display ul li.isFixing .my_front h6:last-child,
+        .display ul li.isFixing div.my_back h6.status-icon {
+            color: darkred;
+            background: var(--yellow);
+            border: 5px solid darkred;
+            text-shadow: none;
+            /*<i class="material-icons">report</i>*/
+        }        
+        
+        /*************************************************************************
+        FRONT CARD
+        **************************************************************************/
+        .display ul li div.my_front h6 {
+            display: inline-block;
+            float: left;
+            clear: left;
+            margin: .5rem;
+        }
+        .display ul li div.my_front h6[data-js] {
+            clear: right;    
+        }
+        .display ul li div.my_front div[data-js="img"] {
+            float: right;
+            width: 130px;
+            height: 70px;
+            background-size: 150px 105px;
+            background-repeat: no-repeat;
+            background-position: center; 
+            border-radius: 50%;
+            border: .5px solid var(--yellow);
+            transform: scale(2.4);
+            margin-top: -6rem;
+            margin-right: -57px;   
+            z-index: 10;
+        }
+        .display ul li div.my_front h6:last-child {
+            position: absolute;
+            background: rgba(255,0,0,00.80);
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,0,00.60);
+            margin-left: 140px;
+            margin-top: 92px;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 50px;
+            box-shadow: 5px 5px 18px black;
+            text-shadow: 2px 2px 6px black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+        }    
+        
+        /*************************************************************************
+        BACK CARD
+        **************************************************************************/
+        .display ul li div.my_back h6.show-status {
+            margin: 1rem auto 0rem 2rem;
+            padding-top: .5rem;
+            text-transform: uppercase;
+        }
+        .display ul li .my_back div[data-js="flip-btn"] {
+            background-color: transparent;
+        }
+/*
+        .display ul li .my_back div[data-js="flip-btn"]:hover {
+            background-color: transparent;
+        }        
+*/
+        .display ul li div.my_back .set-status-box {
+            width: 100%;
+            height: 40%;
+            margin-top: 2.4rem;
+            float: left;
+        }
+/*
+        .display ul li div.my_back .set-status-box [type="button"]{
+            background: var(--yellow);
+            color: var(--darkpurple);
+            text-transform: uppercase;
+            font-size: .6rem;
+            font-weight: 700;
+            width: 30%;
+            height: 25px;
+            margin: 0 4px;
+            cursor: pointer;
+            transform: scaleY(1.3);
+            box-shadow: 2px 2px 2px black;
+            border-width: 0px;
+            border-radius: 5px;
+            transition: .2s all ease;
+        }
+        .display ul li div.my_back .set-status-box [type="button"]:hover{
+            background: var(--darkpurple);
+            color: var(--yellow);
+            border: .5px solid var(--yellow);
+        }
+*/
+/*
+        .display ul li div.my_back h6.show-status {
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+*/
+/*
+        .display ul li div.my_back h6.status-icon {
+            position: absolute;
+            background: rgba(255,0,0,1);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,0,00.60);
+            margin-left: 30px;
+            margin-top: -30px;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            box-shadow: 3px 3px 18px black;
+            text-shadow: 2px 2px 6px black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+        }
+*/
+/*
+        .display ul li div.my_back > div.wrap {
+            float: right;
+            margin-right: .5rem;
+            font-size: .8rem;
+            opacity: .75;
+        }
+*/
+/*
+        .display ul li div.my_back > div.wrap > h6 > span {
+            margin-left: .5rem;
+        }
+*/
+        
+        /*
+        
+        Back Card Header
+        
+        ****************************************** */        
+
+        .display ul li div.my_back h6.show-status {
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .display ul li div.my_back h6.status-icon {
+            position: absolute;
+            background: rgba(255,0,0,1);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,0,00.60);
+            margin-left: 30px;
+            margin-top: -30px;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            box-shadow: 3px 3px 18px black;
+            text-shadow: 2px 2px 6px black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+        }
+        .display ul li .my_back div[data-js="flip-btn"]:hover {
+            background-color: transparent;
+        }                
+        .display ul li div.my_back .set-status-box.newTemp {
+            background: url('assets/back-card-bg.svg');
+            background-repeat: no-repeat;
+            background-size: cover;            
+            margin-top: 33px;
+            margin-left: 75px;
+            transform: scale(1.8);
+        }
+        .display ul li div.my_back .set-status-box.newTemp .status-subBox {
+            display: inline-block;
+            width: 53px;
+            height: 40px;
+            margin-top: 23px;
+            float: left;
+        }
+        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(1) {
+            margin-left: 23px;
+        }        
+        
+        /*
+        Display "Loja"
+        ****************************************** */        
+        
+        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(2) span.store {
+            position: fixed;
+            text-transform: uppercase;
+            border: 1px dotted var(--yellow);
+            padding: 5px;
+            border-radius: 5px;
+            transform: scaleY(.65);
+            font-weight: 700;
+            font-family: monospace;
+            background: #000;
+            margin-left: -22px;
+            margin-top: -18px;
+            z-index: 99;
+        }
+        
+        /*
+        Sunbrust
+        ****************************************** */        
+        
+        .sunbrust {
+            min-height: 85%;
+            
+            background:
+              -webkit-linear-gradient(27deg,transparent 70%,black 70%,black),
+              -webkit-linear-gradient(19deg,transparent 65%,rgba(255,255,0,.7) 65%,rgba(255,255,0,.7)),
+              -webkit-linear-gradient(11deg,transparent 60%,black 60%,black),
+              -webkit-linear-gradient(6deg,transparent 55%,rgba(255,255,0,.7) 55%,rgba(255,255,0,.7)),
+                
+              -webkit-linear-gradient(0deg,transparent 50%,black 50%,black),
+              -webkit-linear-gradient(-6deg,transparent 45%,black 45%,black),
+              -webkit-linear-gradient(-11deg,transparent 40%,rgba(255,255,0,.7) 40%,rgba(255,255,0,.7)),
+                
+              -webkit-linear-gradient(-19deg,transparent 35%,black 35%,black),
+              -webkit-linear-gradient(-27deg,transparent 30%,rgba(255,255,0,.7) 30%,rgba(255,255,0,.7));
+            
+            background-position: center 0;
+            background-size: 80px 80px;
+            
+            -webkit-filter: blur(.4px);
+			-moz-filter: blur(.4px);
+			-ms-filter: blur(.4px);
+			filter: blur(.4px);            
+            opacity: 0.4;
+        }
+        
+        /*
+        Car Stand
+        ****************************************** */        
+        
+        .wrap-car-stand {
+            margin: -92px 1.8% auto 1.9%;
+            margin-bottom: 50px;
+            padding-left: 3%;
+            1background: red;
+        }
+        .car-stand {
+            position: relative;
+            margin: 90px 5%;
+            background-color: #d3d3d3;
+            width: 42px;
+            height: 3px;
+        }
+        .car-stand:before {
+            content: "";
+            position: absolute;
+            display: block;
+            background-color: #483d8b;
+            width: 42px;
+            height: 20px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            border-radius: 50%;
+            -moz-transform: rotatex(70deg);
+            -o-transform: rotatex(70deg);
+            -ms-transform: rotatex(70deg);
+            -webkit-transform: rotatex(70deg);
+            transform: rotatex(70deg);
+            -moz-transform-origin: top center;
+            -o-transform-origin: top center;
+            -ms-transform-origin: top center;
+            -webkit-transform-origin: top center;
+            transform-origin: top center;
+            top: -3px;
+            z-index: 91;
+        }
+        .car-stand:after {
+            content: "";
+            position: absolute;
+            display: block;
+            background-color: #d3d3d3;
+            width: 42px;
+            height: 20px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            border-radius: 50%;
+            -moz-transform: rotatex(70deg);
+            -o-transform: rotatex(70deg);
+            -ms-transform: rotatex(70deg);
+            -webkit-transform: rotatex(70deg);
+            transform: rotatex(70deg);
+            -moz-transform-origin: botton center;
+            -o-transform-origin: botton center;
+            -ms-transform-origin: botton center;
+            -webkit-transform-origin: botton center;
+            transform-origin: botton center;
+            top: -7px;
+            z-index: 90;
+            box-shadow: 1px 11px 20px #4a4a4a;
+        }
+        .display ul li div.my_back .set-status-box.newTemp .status-subBox i.material-icons {
+            margin-top: 21px;
+            font-size: 1.3rem;
+        }
+        
+        /*
+        Car Icon
+        ****************************************** */        
+
+        .display ul li div.my_back .set-status-box.newTemp  div.car-icon {
+            background: url(assets/car-icon.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            margin-left: 13px;
+            margin-top: 15px;
+            transform: scale(1.4);
+            z-index: 99;
+        }
+        .display ul li div.my_back .set-status-box.newTemp .carAtStore div.car-icon {
+            margin-left: 11px;
+            margin-top: -25px;
+        }
+        
+        /*
+        Mechanic Icon
+        ****************************************** */        
+
+        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(3) .mechanic {
+            background: url(assets/handyman.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            width: 40px;
+            height: 80px;
+            margin-left: 23px;
+            margin-top: -31px;
+            transform: scale(.5);
+            opacity: .5;
+        }        
+        
+        /*************************************************************************
+        FLIP CARD - START
+        **************************************************************************/
+        div.my_front, div.my_back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute;
+            border: 5px inset var(--pink);
+            border-radius: 5%;
+            background-color:  var(--darkpurple);
+            height: 10rem;
+            max-width: 20rem;
+            min-width: 18rem;
+            box-shadow: 5px 5px 17px black;
+            overflow: hidden;
+        }
+        div.my_back {
+            background-color:  darkslateblue;
+            border: 5px inset darkblue;
+        }
+        .display div.my_card {
+            margin: 0 auto;
+            max-width: calc(20rem + 10px);
+            min-width: calc(18rem + 10px);            
+            -webkit-perspective: 600px;
+            perspective: 600px;
+        }
+        .my_card {
+          position: relative;
+          width: 9rem; height: 12rem;
+          perspective: 30rem;    
+        }
+        .my_front, .my_back {
+          position: absolute;
+          transition: transform 1s;
+          backface-visibility:hidden;
+            border: 1px solid black;
+        }
+        .my_front { 
+          transform: rotateY(360deg);  
+        }
+        .my_back { 
+          transform: rotateY(180deg); 
+        }
+        
+        /*is-switched **********************************/
+        .display div.my_card.is-switched .card__wrapper {
+          -webkit-animation: rotate 0.5s linear both;
+                  animation: rotate 0.5s linear both;
+        }
+        .card__wrapper {
+          -webkit-transform-style: preserve-3d;
+                  transform-style: preserve-3d;
+          -webkit-animation: rotate-inverse 0.5s linear both;
+                  animation: rotate-inverse 0.5s linear both;
+        }
+        @keyframes rotate {
+          0% {
+            -webkit-transform: rotateY(0);
+                    transform: rotateY(0);
+          }
+          70% {
+            -webkit-transform: rotateY(200deg);
+                    transform: rotateY(200deg);
+          }
+          100% {
+            -webkit-transform: rotateY(180deg);
+                    transform: rotateY(180deg);
+          }
+        }
+        @-webkit-keyframes rotate-inverse {
+          0% {
+            -webkit-transform: rotateY(180deg);
+                    transform: rotateY(180deg);
+          }
+          70% {
+            -webkit-transform: rotateY(-20deg);
+                    transform: rotateY(-20deg);
+          }
+          100% {
+            -webkit-transform: rotateY(0);
+                    transform: rotateY(0);
+          }
+        }
+        @keyframes rotate-inverse {
+          0% {
+            -webkit-transform: rotateY(180deg);
+                    transform: rotateY(180deg);
+          }
+          70% {
+            -webkit-transform: rotateY(-20deg);
+                    transform: rotateY(-20deg);
+          }
+          100% {
+            -webkit-transform: rotateY(0);
+                    transform: rotateY(0);
+          }
+        }
+        
+        /*************************************************************************
+        MEDIA QUERIES - START
+        **************************************************************************/
+        @media screen and (min-width: 679px) {
+            .display ul li {
+                1margin: auto 2rem 3rem 2rem;
+            }
+            section h5 {
+                font-size: 2.25rem;
+            }            
+        } 
+        @media screen and (min-width: 1000px) {
+            form label {
+                width: 30%;
+                margin-left: 35%;                
+                text-align: left;
+            }
+            form {
+                text-align: center;
+            }
+            form input {
+                width: 30%;
+                margin-left: 35%;                
+            }
+            form input[type="submit"] {
+                float: none;
+            }
+        }                   
+        @media screen and (min-width: 1229px) {
+            section h5 {
+                font-size: 3rem;
+                text-align: left;
+                margin-left: 5vw;
+            }
+            .company h5, .company h3 {
+                text-align: left;
+                margin-left: 5vw;
+                transform: scale(1.35,1.35);
+                transform-origin: bottom left;
+            }
+            form label {
+                float: right;
+                max-width: 400px;
+            }
+            
+            form input {
+                max-width: 400px;
+                float: right;
+            }
+            form input[type="submit"] {
+                float: right;
+            }            
+        }
+    </style>
+
+<body>
+   <div class="container">
+     <div class="company">
+         <h3 data-js="company-name"></h3>
+         <h5 data-js="company-phone"></h5>   
+     </div>
+      
+       <section class="cadastro">
+          <h5>Cadastrar veículos</h5>
+          <form data-js="new-car">
+                <label for="modelo">Modelo</label>
+                <input type="text" data-js="input-modelo" id="modelo" required value="Conversível">
+
+                <label for="marca">Marca</label>
+                <input type="text" data-js="input-marca" id="marca" required value="Ferrari">
+              
+                <label for="ano">Ano</label>
+                <input type="number" data-js="input-ano" id="ano" maxlength="4" required value="2018">
+              
+                <label for="placa">Placa</label>
+                <input type="text" data-js="input-placa" id="placa" maxlength="8" required value="ABC-1234">
+              
+                <label for="cor">Cor</label>
+                <input type="text" data-js="input-cor" id="cor" required value="Vermelho">
+              
+                <label for="url">URL da imagem</label>
+                <input type="url" data-js="input-url" id="url" required value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRphTa6LkWu64btsVlhY4_sPxDqL8aPQtL6zwKrTMHPtAiwKNFH">
+
+                <input type="submit" value="cadastrar">
+                
+          </form>
+           
+       </section>
+       
+       <section class="display">
+          <h5 data-js="status">Nenhum veículo cadastrado</h5>
+          
+          <ul data-js="cadastro">
+                          
+            <li class="isAvailable">
+                <div array-count="1" class="my_card is-switched">
+                    <div class="card__wrapper">
+
+                        <div class="my_front">
+                            <div data-js="flip-btn">
+                                <i class="material-icons">import_export</i>
+                            </div>
+                            <h6>Modelo:</h6>
+                            <h6 data-js="modelo">Conversível</h6>
+                            <h6>Marca:</h6>
+                            <h6 data-js="marca">Ferrari</h6>
+                            <h6>Ano:</h6>
+                            <h6 data-js="ano">2018</h6>
+                            <h6>Placa:</h6>
+                            <h6 data-js="placa">ABC 2011</h6>
+                            <h6>Serial Number:</h6>
+                            <h6 data-js="cor">99</h6>
+                            <div class="circle" data-js="img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRphTa6LkWu64btsVlhY4_sPxDqL8aPQtL6zwKrTMHPtAiwKNFH');"></div>
+                            <h6>
+                                <i class="material-icons">vpn_key</i>
+                            </h6>
+                        </div>
+
+                        <div class="my_back">
+                            <div data-js="flip-btn">
+                                <i class="material-icons">import_export</i>
+                            </div>
+                            
+                            <h6 class="show-status">disponível</h6>
+                            
+                            <div class="set-status-box newTemp" id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                               
+                                <div class="status-subBox carAtCustomer">
+                                   
+<!--                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>-->
+                                    
+                                </div>
+                                
+                                <div class="status-subBox carAtStore" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                   
+                                    <span class="store">loja</span>
+                                    
+                                    <div class="sunbrust"></div>
+                                    
+                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>
+                                    
+                               
+                                    <div class="wrap-car-stand">
+                                       
+                                        <div class="car-stand"></div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="status-subBox" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                   
+                                    
+                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>
+                                
+                                    <div class="mechanic"></div>
+                                
+                                </div>
+                                
+                            </div>
+                            
+                            <h6 class="status-icon">
+                                <i class="material-icons">vpn_key</i>
+                            </h6>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+                          
+           </ul>
+       </section>
+   </div>
+   <script type="text/javascript" src="DOM.js"></script>
+   <script type="text/javascript" src="rent-a-car-project.js"></script>
+   
+   <script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+    </script>
+   
+</body>
+</html>

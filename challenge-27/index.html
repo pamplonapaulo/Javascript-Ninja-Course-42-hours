@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <a data-js="link" href="#">Link 1</a>
+  <a data-js="link" href="#">Link 2</a>
+  <a data-js="link" href="#">Link 3</a>
+  <a data-js="link" href="#">Link 4</a>
+  <ul>
+      <li data-js="myList">1</li>
+      <li data-js="myList">2</li>
+      <li data-js="myList">3</li>
+      <li data-js="myList">4</li>
+      <li data-js="myList">5</li>
+      <li data-js="myList">6</li>
+      <li data-js="myList">7</li>
+  </ul>
+  
+  <article>
+      <p data-js="paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque id ab saepe commodi, impedit corrupti dolorum, sunt architecto repudiandae incidunt consectetur at? Ratione odit tenetur aperiam, non quam a veniam!</p>
+      <p data-js="paragraph" class="findMe">Dolore ratione ducimus quidem cumque error, nemo maiores dolorum officiis quos saepe accusantium in explicabo laudantium non perferendis minus nihil, ex? Libero aliquam dolor perferendis suscipit alias non mollitia culpa!</p>
+      <p data-js="paragraph">Amet iusto ipsa adipisci non esse provident, eum! Atque voluptatum laudantium, beatae, quam harum architecto dolore odit id animi corporis deserunt facilis, doloribus dolor delectus earum omnis. Et, dolores, iste!</p>
+      <p data-js="paragraph">Repellendus expedita animi, non earum. Porro quod, aut soluta dolore hic vel debitis animi inventore, impedit tenetur veritatis consequuntur blanditiis maxime sunt. Iste illum illo cupiditate, libero iusto blanditiis sequi.</p>
+      <p data-js="paragraph">Nam eos autem quisquam, obcaecati labore quis delectus ut dolores sed quas hic veniam iure odio accusantium eligendi impedit dolorum nostrum, vitae. Nulla ratione magnam expedita vitae. Cum maiores, amet.</p>
+  </article>
+  
+
+  <script src="challenge-27.js"></script>
+
+<!--
+<script>
+    
+var Persona = function (){
+    // Variable de clase (estatica)
+    var count = 0;
+    console.log('fora ' + count);
+ 
+    // Constructor de la clase Persona
+    var fn = function(){
+        var _api = {};
+        _api.saluda = function(){
+            alert('Hola #'+count);
+        };
+        count++;
+        console.log('fn ' + count);
+        return _api;
+    };
+ 
+    // Metodo estatico de Persona
+    fn.getCount = function(){
+        alert('Numero de personas '+count);
+    }
+ 
+    return fn;
+}();    
+    
+var manolo = new Persona();
+var maria = new Persona();
+var pepe = new Persona();
+var jorge = new Persona();
+
+// Metodo estatico de la clase Persona
+//Persona.getCount();
+    
+</script>
+ -->
+  
+</body>
+</html>

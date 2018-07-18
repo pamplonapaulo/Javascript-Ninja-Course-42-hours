@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 9: Scope, Hoisting, and Immediately Invoked Function Expression (IIFE)</title>
+</head>
+<body>
+  <h1>Aula 9: Scope, Hoisting, and Immediately Invoked Function Expression (IIFE)</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+    
+    // 1. SCOPE
+        
+        // Se escrever uma função debntro de outra é possível, como se comporta oescopo enstas condições?
+
+        function myFunction(){
+            function sum(){
+                return 1 + 2;    
+            }
+            return sum();
+        }
+        console.log(myFunction());
+        // 3
+        
+        sum();
+        // 'sum is not defined'
+        // A function 'sum' só existe dentro de 'myFunction'.
+
+        function myFunction(){
+            var number1 = 1;
+            var number2 = 2;
+            function sum(){
+                return number1 + number2;    
+            }
+            return sum();
+        }
+        console.log(myFunction());        
+        // Ou seja: sum() consegue acessar vars dentro de myFunction
+        
+        // Closures
+        // A function sum() faz o papel de uma 'closure', consegue acessar parâmetros externos a ela.
+        
+        // Será que o posicionamento das VARs interfere?
+        function myFunction(){
+            function sum(){
+                return number1 + number2;    
+            }
+            var number1 = 1;
+            var number2 = 2;
+            return sum();
+        }
+        console.log(myFunction());        
+        // 3
+        // A evocação de 'sum()' foi feita depois das variáveis, portanto funcionou.
+        
+        function myFunction(){
+            function sum(){
+                return number1 + number2;    
+            }
+            return sum();
+            var number1 = 1;
+            var number2 = 2;
+        }
+        console.log(myFunction());
+        // NaN
+        
+        // MAS HÁ SURPRESAS...
+        
+        // QUE TAL OUTRO TESTE:
+        
+        function myFunction(){
+            var number1 = 1;
+            var number2 = 2;
+            return sum(); // invocando 'sum' antes
+            function sum(){
+                return number1 + number2;    
+            }
+        }
+        console.log(myFunction());
+        // 3
+        
+    // 2. HOISTING
+        
+        // Hoisting: Içamento, Elevação.
+        
+        // Por que o retorno de uma função que ainda não existia funcionou?
+        
+        // Quando você tem uma FUNÇÃO LITERAL, ainda que você a crie depois de executar um return, nativamente o JS a elevará ou içará para o topo no bloco.
+        
+        // O JS só reconhece o código para executá-lo se for uma literal function.
+        
+        // Funções Literais estão, portanto, disponíveis dentro de todo o escopo onde se encontram.
+        
+        // Além de içar as funções para o topo, o HOISTING também eleva, antes de mais nada, as VARIÁVEIS. É por essa razão que uma função atribuída a uma variável acaba em uma posição indesejada e gera erro.
+        
+        // As variáveis estão disponíveis no código apenas a partir do ponto em que elas recebem alguma atribuição.
+        
+        function myFunction(){
+            console.log('Antes de declarar ', number1);
+            var number1 = 10;
+            console.log('Depois de declarar ', number1);
+        }
+        console.log(myFunction());
+        // Antes de declarar  undefined
+        // Depois de declarar  10
+
+        
+        function myFunction(){
+            console.log('Antes de declarar ', number1);
+            console.log('NUMBER2 ', number2);
+            var number1 = 10;
+            console.log('Depois de declarar ', number1);
+        }
+        console.log(myFunction());
+        // Antes de declarar  undefined
+        // 'NUMBER2' is not defined
+        
+        // Ou seja, 'NUMBER2' não foi nem criada. Já a variável 'number1' foi criada.
+        // O bloco acima é reagrupado pelo HOISTING dessa forma:
+        function myFunction(){
+            // Iça a declaração da variável para o topo:
+            var number1;
+            console.log('Antes de declarar ', number1);
+            console.log('NUMBER2 ', number2);
+            // Mas mantém a atribuição do valor da var na mesma posição original:
+            number1 = 10;
+            console.log('Depois de declarar ', number1);
+        }
+        
+        
+        // OUTRO CASO:
+        
+        // EXEMPLO DE SCRIPT:
+        function myFunction(){
+            console.log(sum());
+            function sum(){
+                return 1 + 2;
+            }
+            console.log(sum());
+        }
+        console.log(myFunction());
+        // 3
+        // 3
+        
+        // FUNCIONOU ACIMA, POIS FOI REAGRUPADO PELO HOISTING ASSIM:
+        function myFunction(){
+            function sum(){
+                return 1 + 2;
+            }    
+            console.log(sum());
+            console.log(sum());
+        }
+        console.log(myFunction());
+        // 3
+        // 3
+        
+        // PORTANTO, AMBAS AS FORMAS FUNCIONAM, GRAÇAS AO HOISTING:
+
+        // HOISTING - VARIÁVEIS
+        
+        function myFunction(){
+            console.log(number1);
+            var number1 = 50;
+            console.log(number1);
+        }
+        console.log(myFunction());
+        // undefined
+        // 50
+        
+        // DICAS PARA EVITAR PROBLEMAS NO HOISTING:
+        // - DECLARE VARIÁVEIS NO INÍCIO DAS FUNÇÕES
+        // - EM SEGUIDA CRIE SUAS FUNÇÕES LITERAIS
+        // - DEIXE O RETURN SEMPRE PARA A ÚLTIMA LINHA DA FUNÇÃO A MENOS QUE VOCÊ TENHA ALGUM IF.
+        
+        
+        
+        
+    // 3. IIFE: Immediately-Invoked Function Expression
+    // Expressão de Função Invocada Imediatamente.
+    // Função Auto-executável.
+        
+        // Exemplo 1 de função:
+        function sum1() { return 1 + 2; }
+        console.log(sum1()); // Invocação
+        // 3
+        
+        // Exemplo 2. 
+        var sum2 = function(){ return 5+5; };
+        console.log(sum2()); // Invocação
+        // 10
+        
+        // Exemplo 3.
+        var sum3 = function other(){ return 5 + 10; }
+        console.log(sum3()); // Invocação
+        // 15
+        
+        // Como executar uma função anônima literal?
+        function(){
+            return 1 + 2;
+        };
+        
+        // Talvez dentro de um objeto:
+        var obj = {
+            prop: function(){ return 1 + 2; }
+        };
+        console.log(obj.prop());
+        // 3
+        
+        // NÃO HÁ COMO EXECUTAR UMA FUNÇÃO ANÔNIMA LITERAL:
+        function(){
+            return 1 + 2;
+        };
+        
+        //  Para rodar, uma função precisa se tornar uma EXPRESSÃO:
+        
+            // - Parênteses para envolver a função.
+            // - 
+        
+        // A RESPOSTA É:
+        
+        // IIFE: Função Autoexecutável:
+        (function(){
+            return 1 + 2;
+        })();
+        // 3
+        
+        // QUAL É A VANTAGEM?
+        // Você força um escopo local.
+        
+        
+        
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+

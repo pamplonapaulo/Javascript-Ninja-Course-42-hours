@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 6: Operador Módulo %</title>
+</head>
+<body>
+  <h1>Aula 6: Operador Módulo %</h1>
+   
+   <!--    Curso JavaScript Ninja
+           Prof: Fernando Daciuk    
+    -->
+    <script>
+    
+    // 1. OPERADOR MÓDULO
+
+        // É o resto de uma divisão (inteiro)
+        
+        3 / 3 = 1
+        3 % 3 = 0       
+        5 % 2 = 1     
+        5 / 2 = 2.5     
+        5 % 2 = 1 (resta 1, da vidisão de 5 por 2)    
+        4 % 2 = 0   
+        19 % 2 = 1
+        
+        // Mas para o quê isso é útil?
+        // Como retornar, por exemplo, apenas números pares ou ímpares?
+        // PARES = MULTIPLOS DE 2
+        
+        // Divida qualquer número por 2. Se o resultado é resto zero, o número era par. Se for 1, era ímpar.
+        
+        // X % 2 = 1 ou X % 2 = 0
+        
+        for (x=0; x<10; x++){
+            
+            y = x % 2;
+            
+            if (y == 1){
+                var y = 'ímpar';
+            } else if (y == 0) {
+                var y = 'par';   
+            }
+            console.log(x + ' = ' + y)    
+        }
+        
+        // 0 = par
+        // 1 = ímpar
+        // 2 = par
+        // 3 = ímpar
+        // 4 = par
+        // 5 = ímpar
+        // 6 = par
+        // 7 = ímpar
+        // 8 = par
+        // 9 = ímpar
+
+        // Outro loop, com WHILE:
+        
+        var num = 0;
+        while(num <= 20) {
+            (num++) % 2 === 0 ? console.log(num) : '';
+            // ATENÇÃO: Esse exemplo é um 'erro'. O incremento antes da operação de módulo está alterando a intenção do professor, que seria a próxima abaixo:
+        }
+        // 1
+        // 3
+        // 5
+        // 7
+        // 9
+        // 11
+        // 13
+        // 15
+        // 17
+        // 19
+        // 21
+        
+        var num = 0;
+        while(num <= 20) {
+            num % 2 === 0 ? console.log(num) : '';
+            num++; // ATENÇÃO: Repare que aqui sim é o local adequado para o incremento(++).
+        }
+        // 0
+        // 2
+        // 4
+        // 6
+        // 8
+        // 12
+        // 14
+        // 16
+        // 18
+        // 20
+        
+    // 2. ARRAYS
+        
+        // 2.1  .length
+                
+        var arr = [ 'pamplona', null, true, { bola: 'azul'}, function(){} ];
+        arr.length;
+        // 5
+        
+        var num = 0;
+        while(num < 10) {
+            console.log(num++);
+        }
+        // 0
+        // 1
+        // 2
+        // 3
+        // 4
+        // 5
+        // 6
+        // 7
+        // 8
+        // 9
+
+        var quant = arr.length;
+        while(quant >= 0 ) {
+            console.log(arr[ quant-- ]); // return e depois reduz 1.
+        }
+        // undefined
+        // ƒ (){}
+        // {bola: "azul"}
+        // true
+        // null
+        // pamplona
+        
+
+        var quant = arr.length;
+        while(quant > 0 ) {
+            console.log(arr[ --quant ]); // reduz 1 antes do return.
+        }
+        // ƒ (){}
+        // {bola: "azul"}
+        // true
+        // null
+        // pamplona        
+        
+        var quant = arr.length;
+        while (quant > 0) {
+            console.log(arr[ --quant ]);
+            
+            if (quant === 3) {
+                console.log(arr[quant].bola);
+            }
+        }
+        //  ƒ (){}
+        //  {bola: "azul"}
+        //  azul  <==   <==  <==========
+        //  true
+        //  null
+        //  pamplona
+        
+        // 2.2  .push
+        
+        // adiciona um item no fim do array.
+        
+        var arr = [ 1, 2, 3, 'paulo', { bola: 'azul' } ];
+        arr.length
+        // 5
+        arr[0]
+        // 1
+        
+        // Forma errada de adicionar:
+        var arr = [ 1, 2, 3, 'paulo', { bola: 'azul' }, 'item novo' ];
+        arr.length
+        // 6
+        arr[5]
+        // 'item novo'
+        
+        
+        // Forma CORRETA de adicionar: PUSH
+        arr.push( { carro: 'BMW'});
+        // 7  (e além de adiconar, já retorna o length automaticamente)
+        arr.length
+        // 7
+        arr[6]
+        // '{ carro: 'BMW }'
+        arr[6].carro
+        // 'BMW'
+        var arr = [ 1, 2, 3, 'paulo', { bola: 'azul' }, ['la0', 'la1', 'la2'] ];
+        arr[5][2];
+        // 'la2'
+
+    // 3. FOR LOOP
+        
+    // Statement 1 is executed before the loop (the code block) starts.
+    // Statement 2 defines the condition for running the loop (the code block).
+    // Statement 3 is executed each time after the loop (the code block) has been executed.
+        
+        // EXEMPLO WHILE
+        var num = 0;
+        while ( num < 6 ){
+            console.log(num++);
+        }
+        // 0
+        // 1
+        // 2
+        // 3
+        // 4
+        // 5
+        
+        // EXEMPLO FOR
+        for (var num = 0; num < 6; num++) {
+            console.log(num);
+        }
+        // 0
+        // 1
+        // 2
+        // 3
+        // 4
+        // 5        
+        
+        // PASSANDO MAIS DE UMA VARIÁVEL:
+        
+        for (var num = 2, arroz = 3; num < 5; num++){
+            console.log('num é ' + num);
+            console.log('arroz é '+ arroz++);
+        }
+        // num é 2
+        // arroz é 3
+        // num é 3
+        // arroz é 4
+        // num é 4
+        // arroz é 5        
+        
+        for (var num = 2, arroz = 3; num < 5; num++){
+            console.log('num é ' + num);
+            console.log('arroz é '+ arroz);
+        }        
+        // num é 2
+        // arroz é 3
+        // num é 3
+        // arroz é 3
+        // num é 4
+        // arroz é 3
+        
+        for (var num = 2, arroz = 3; num < 5; num++, arroz++){
+            console.log('num é ' + num);
+            console.log('arroz é '+ arroz);
+        }          
+        // num é 2
+        // arroz é 3
+        // num é 3
+        // arroz é 4
+        // num é 4
+        // arroz é 5
+        
+        for (var num = 2, arroz = 6; num < 5; num++, arroz--){
+            console.log('num é ' + num);
+            console.log('arroz é '+ arroz);
+        }          
+        // num é 2
+        // arroz é 6
+        // num é 3
+        // arroz é 5
+        // num é 4
+        // arroz é 4
+        
+        for (var num = 2, arroz = 6; num < 5, arroz > 4 ; num++, arroz--){
+            console.log('num é ' + num);
+            console.log('arroz é '+ arroz);
+        }         
+        // num é 2
+        // arroz é 6
+        // num é 3
+        // arroz é 5
+        
+    </script>
+</body>
+</html>
+
+
+
+
+
+

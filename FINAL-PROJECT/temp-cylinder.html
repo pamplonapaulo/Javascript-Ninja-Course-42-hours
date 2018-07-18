@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        
+
+.car-stand {
+  position: relative;
+  margin: 90px 5%;
+  background-color: #d3d3d3;
+  width: 70px;
+  height: 9px;
+
+}
+.car-stand:before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: #a8a8a8;
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  -moz-transform: rotatex(70deg);
+  -o-transform: rotatex(70deg);
+  -ms-transform: rotatex(70deg);
+  -webkit-transform: rotatex(70deg);
+  transform: rotatex(70deg);
+  moz-transform-origin: top center;
+  -o-transform-origin: top center;
+  -ms-transform-origin: top center;
+  -webkit-transform-origin: top center;
+  transform-origin: top center;
+  top: -10px;
+}
+.car-stand:after {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: #d3d3d3;
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  -moz-transform: rotatex(70deg);
+  -o-transform: rotatex(70deg);
+  -ms-transform: rotatex(70deg);
+  -webkit-transform: rotatex(70deg);
+  transform: rotatex(70deg);
+  moz-transform-origin: botton center;
+  -o-transform-origin: botton center;
+  -ms-transform-origin: botton center;
+  -webkit-transform-origin: botton center;
+  transform-origin: botton center;
+  top: -25px;
+  z-index: -1;
+  box-shadow: 10px 0px 20px #4a4a4a;
+}
+
+
+        
+        
+    </style>
+</head>
+<body>
+
+
+  <div>
+    <div class="car-stand"></div> 
+  </div>
+
+
+
+
+</body>
+</html>

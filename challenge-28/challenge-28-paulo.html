@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Challenge 28</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:100,400,700,900');
+        
+        /* RESET START */
+
+        /* http://meyerweb.com/eric/tools/css/reset/ 
+           v2.0 | 20110126
+           License: none (public domain)
+        */
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        /* RESET END */
+                
+        body {
+            font-family: 'Encode Sans Condensed', sans-serif;
+            --orange: rgb(255,99,71);
+            --blue: rgb(0,191,255);
+            --darkgrey: rgb(51,51,51);
+            --lightgrey: rgb(220,220,220);
+            --black: rgb((30,30,30));
+            background: var(--lightgrey);
+        }
+        
+        .container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            background: var(--darkgrey);
+            color: var(--lightgrey);
+        }
+        
+        .container section {
+            margin-top: 90px;
+            line-height: 1.6;
+            font-size: 1.4rem;
+            font-weight: 100;
+        }        
+        
+        .container section p {
+            margin: 0 5% 5% 5%;
+        }
+        .container section h3 {
+            margin: 0 5%;
+            line-height: 1.6;
+            font-size: 2rem;
+            text-transform: uppercase;
+            color: var(--orange);
+        }
+        
+        .container section:last-of-type {
+            background: var(--blue);
+            min-height: 90vh;
+            padding-left: 20px;
+        }
+        
+        .container section:last-of-type h3 {
+            text-align: center;
+            margin: 75px 0px auto -20px;
+            padding: 50px 0;
+        }
+        
+        .container section form {            
+            float: none;
+            color: var(--darkgrey);
+        }
+        
+        form label {
+            float: left;
+            clear: both;
+        }
+        
+        form input {
+            font-family: 'Encode Sans Condensed', sans-serif;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            float: left;
+            clear: both;
+            width: 35vw;
+            height: 30px;
+            font-size: 1.3rem;
+            font-weight: 100;
+            background: var(--lightgrey);
+            color: var(--orange);
+            border-width: 0px;
+        }
+        
+        .container section input {
+            border-left: 6px solid var(--lightgrey);
+        }
+        
+        .wrapper {
+            float: left;
+        }
+        
+        section form > .wrapper {
+            clear: both;
+        }
+
+        .wrapper input {
+            margin: .5rem 0 1rem 0;
+        }
+        .subwrap label, .subwrap input {
+            margin-left: 0;
+        }
+        .wrapper > .subwrap:first-child {
+            float: left;
+        }
+        .wrapper > .subwrap:nth-child(2) {
+            float: left;
+            margin-left: 5px;
+        }
+        .wrapper > .subwrap:nth-child(3) {
+            float: left;
+            margin-left: 20px;
+        }  
+        .wrapper:last-of-type .subwrap:last-child {
+            margin-left: 20px;
+        }  
+        input[data-js="nome"] {
+            width: 60vw;
+        }        
+        input[data-js="logradouro"] {
+            width: 45vw;
+        }        
+        input[data-js="bairro"] {
+            width: 36vw;
+        }
+        input[data-js="cidade"] {
+            width: 30vw;
+        }
+        input[data-js="uf"] {
+            width: 25px;
+        }
+        input[data-js="cep-1"] {
+            width: 60px;
+        }
+        input[data-js="cep-2"] {
+            width: 40px;
+        }
+        .wrapper > .subwrap:last-child {
+            width: 50px;
+            text-align: center;
+        }         
+        
+        form input[type="submit"] {
+            display: block;
+            float: none;
+            position: relative;
+            margin: auto;
+            top: 70px;            
+            width: 250px;
+            height: 70px;
+            background: var(--orange);
+            color: var(--lightgrey);
+            border:none;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .5s;
+        }
+        
+        form input[type="submit"]:hover {
+            background: var(--darkgrey);
+        }            
+        
+        
+    @media only screen and (min-width: 800px) {
+                        
+        .container section {
+            display: inline-block;
+            width: 50%;
+        }
+            
+        .container section:first-of-type {
+            float: left;
+        }    
+            
+        .container section:last-of-type {
+            position: absolute;
+            right: 0;
+            min-height: 100vh;
+            min-width: 300px;            
+            margin: 0% auto 0px 1%;
+            padding: 0 5%;
+            width: 30%;
+        }             
+        
+        .container section:last-of-type h3 {
+            text-align: center;
+            right: 25%;
+            float: right;
+        }
+        
+        .container section form {            
+            margin-top: 25vh;
+        }
+                        
+        .wrapper:last-of-type {
+            float: left;
+            left: 0;
+            margin-left: 0;
+        }
+            
+        input[data-js="nome"] {
+            width: 30vw;
+        }        
+        input[data-js="logradouro"] {
+            width: 30vw;
+        }        
+        input[data-js="bairro"] {
+            width: 12vw;
+        }
+        input[data-js="cidade"] {
+            width: 20vw;
+        }
+    }    
+        
+    @media only screen and (min-width: 1000px) {
+        .container section:last-of-type{
+            position: relative;
+            min-width: none;
+        }
+    }         
+
+    @media only screen and (min-width: 1200px) {
+        .container {
+            position: relative;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        input[data-js="nome"] {
+            width: 20vw;
+        }        
+        input[data-js="logradouro"] {
+            width: 20vw;
+        }        
+        input[data-js="cidade"] {
+            width: 15vw;
+        }
+    }         
+        
+    </style>
+    
+</head>
+<body>
+  
+  <div class="container">
+   
+    <section>
+        <h3>Cadastro</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis ab cupiditate exercitationem amet soluta corporis error assumenda totam. Delectus enim, porro sunt dicta facere voluptate ipsa. Quas pariatur repellat tempore.</p>
+        <p>Tempore voluptate quaerat eius quo corrupti praesentium enim voluptas perspiciatis repellendus, facilis sed quibusdam, veniam delectus fugit excepturi, tenetur dolores autem rerum amet sint itaque. Nisi numquam, iste dignissimos recusandae?</p>
+    </section>
+    
+    <section>
+        <h3 id="statusRequest"><br></h3>
+        <form>
+            <label>Nome:</label>
+            <input data-js="nome" type="text">
+
+            <div class="wrapper">
+
+                <div class="subwrap">
+
+                    <label>CEP:</label>
+                    <input data-js="cep-1" type="text" placeholder="00000"  maxlength="5">
+
+                </div>
+
+                <div class="subwrap">
+
+                    <br>
+                    <input data-js="cep-2" type="text" placeholder="000"  maxlength="3">
+
+                </div>
+
+                <div class="subwrap">
+
+                    <label>Bairro:</label>
+                    <input data-js="bairro" type="text">
+
+                </div>            
+
+            </div>
+
+
+            <label>Logradouro:</label>
+            <input data-js="logradouro" type="text">
+
+
+
+            <div class="wrapper">
+
+               <div class="subwrap">
+
+                    <label>Cidade:</label>
+                    <input data-js="cidade" type="text">  
+
+                </div>
+
+                <div class="subwrap">
+
+                    <label>UF:</label>
+                    <input data-js="uf" type="text" maxlength="2"> 
+
+                </div>
+
+            </div>
+            <input type="submit">
+        </form>    
+    </section>
+    
+  </div>
+  
+  <script type="text/javascript" src="challenge-28-paulo.js"></script>
+   
+    
+</body>
+</html>
