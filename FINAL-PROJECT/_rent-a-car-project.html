@@ -4,20 +4,12 @@
     <meta charset="UTF-8">
     <title>Projeto Final</title>
 </head>
-
    
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
    
     <style>
         @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:100,400,700,900');
         
-        
-        /*************************************************************************
-        RESET CSS
-        **************************************************************************/
-        
-                
         /* http://meyerweb.com/eric/tools/css/reset/ 
            v2.0 | 20110126
            License: none (public domain)
@@ -66,10 +58,8 @@
             border-collapse: collapse;
             border-spacing: 0;
         }
+        /*************************************************************************/
         
-        /*************************************************************************
-        MAIN CSS
-        **************************************************************************/
         body {
             font-family: 'Encode Sans Condensed', sans-serif;
             --yellow: rgb(242,233,127);
@@ -201,9 +191,9 @@
             color: var(--yellow);
         }        
         
-        /*************************************************************************
+        /****************************************************
         CAR STATUS 
-        **************************************************************************/
+        ****************************************************/
         /* isAvailable */
         .display ul li.isAvailable .my_front h6:last-child,
         .display ul li.isAvailable div.my_back h6.status-icon {
@@ -241,9 +231,9 @@
             /*<i class="material-icons">report</i>*/
         }        
         
-        /*************************************************************************
+        /****************************************************
         FRONT CARD
-        **************************************************************************/
+        *****************************************************/
         .display ul li div.my_front h6 {
             display: inline-block;
             float: left;
@@ -286,123 +276,43 @@
             font-weight: 700;
         }    
         
-        /*************************************************************************
-        BACK CARD
-        **************************************************************************/
-        .display ul li div.my_back h6.show-status {
+        /* Back Card 
+        ****************************************** */
+        .display ul li .my_back [data-js="flip-btn"] {
+            background-color: transparent;
+        }
+        .display ul li .my_back [data-js="flip-btn"]:hover {
+            background-color: transparent;
+        }  
+        .my_back .status-text {
             margin: 1rem auto 0rem 2rem;
             padding-top: .5rem;
             text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
         }
-        .display ul li .my_back div[data-js="flip-btn"] {
-            background-color: transparent;
-        }
-/*
-        .display ul li .my_back div[data-js="flip-btn"]:hover {
-            background-color: transparent;
+        .my_back h6.status-icon {
+            position: absolute;
+            background: rgba(255,0,0,1);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,0,00.60);
+            margin-left: 30px;
+            margin-top: -30px;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            box-shadow: 3px 3px 18px black;
+            text-shadow: 2px 2px 6px black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
         }        
-*/
-        .display ul li div.my_back .set-status-box {
+        .back-card-background {
             width: 100%;
             height: 40%;
-            margin-top: 2.4rem;
             float: left;
-        }
-/*
-        .display ul li div.my_back .set-status-box [type="button"]{
-            background: var(--yellow);
-            color: var(--darkpurple);
-            text-transform: uppercase;
-            font-size: .6rem;
-            font-weight: 700;
-            width: 30%;
-            height: 25px;
-            margin: 0 4px;
-            cursor: pointer;
-            transform: scaleY(1.3);
-            box-shadow: 2px 2px 2px black;
-            border-width: 0px;
-            border-radius: 5px;
-            transition: .2s all ease;
-        }
-        .display ul li div.my_back .set-status-box [type="button"]:hover{
-            background: var(--darkpurple);
-            color: var(--yellow);
-            border: .5px solid var(--yellow);
-        }
-*/
-/*
-        .display ul li div.my_back h6.show-status {
-            font-weight: 600;
-            letter-spacing: 2px;
-        }
-*/
-/*
-        .display ul li div.my_back h6.status-icon {
-            position: absolute;
-            background: rgba(255,0,0,1);
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,0,00.60);
-            margin-left: 30px;
-            margin-top: -30px;
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            box-shadow: 3px 3px 18px black;
-            text-shadow: 2px 2px 6px black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-weight: 700;
-        }
-*/
-/*
-        .display ul li div.my_back > div.wrap {
-            float: right;
-            margin-right: .5rem;
-            font-size: .8rem;
-            opacity: .75;
-        }
-*/
-/*
-        .display ul li div.my_back > div.wrap > h6 > span {
-            margin-left: .5rem;
-        }
-*/
-        
-        /*
-        
-        Back Card Header
-        
-        ****************************************** */        
-
-        .display ul li div.my_back h6.show-status {
-            font-weight: 600;
-            letter-spacing: 2px;
-        }
-        .display ul li div.my_back h6.status-icon {
-            position: absolute;
-            background: rgba(255,0,0,1);
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,0,00.60);
-            margin-left: 30px;
-            margin-top: -30px;
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            box-shadow: 3px 3px 18px black;
-            text-shadow: 2px 2px 6px black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-weight: 700;
-        }
-        .display ul li .my_back div[data-js="flip-btn"]:hover {
-            background-color: transparent;
-        }                
-        .display ul li div.my_back .set-status-box.newTemp {
             background: url('assets/back-card-bg.svg');
             background-repeat: no-repeat;
             background-size: cover;            
@@ -410,22 +320,77 @@
             margin-left: 75px;
             transform: scale(1.8);
         }
-        .display ul li div.my_back .set-status-box.newTemp .status-subBox {
+        
+        /* Car-icon
+        ****************************************************/
+        input[type=range] {
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            width: 50%;
+            padding: 0;
+            z-index: 99;
+            margin-top: 35px;
+            margin-left: 30px;
+            float: left;
+        }
+        input[type=range]::-moz-range-track, 
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 25px;
+            border: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            width: 35px;
+            height: 25px;
+            margin: 0;
+            background: url(assets/car-icon.svg);
+            z-index: 99;
+            position: sticky;
+        }
+        input[type='range'],
+        input[type=range]::-moz-range-thumb, 
+        input[type='range']::-webkit-slider-runnable-track, 
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+        
+        .mechanic-wrapper, .store-wrapper {
             display: inline-block;
             width: 53px;
             height: 40px;
             margin-top: 23px;
-            float: left;
+            pointer-events: none;
         }
-        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(1) {
-            margin-left: 23px;
-        }        
-        
-        /*
-        Display "Loja"
+
+        /* Mechanic Icon
         ****************************************** */        
+        .mechanic-wrapper {
+            margin-right: 30px;
+            width: 33px;
+
+        }        
+        .mechanic {
+            background: url(assets/handyman.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 40px;
+            height: 80px;
+            margin-left: 13px;
+            margin-top: -31px;
+            transform: scale(.5);
+            opacity: .5;
+        }
         
-        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(2) span.store {
+        /* Display "Loja"
+        ****************************************** */        
+        .store-wrapper {
+            margin-left: -190px;
+        }
+        span.store {
             position: fixed;
             text-transform: uppercase;
             border: 1px dotted var(--yellow);
@@ -437,16 +402,13 @@
             background: #000;
             margin-left: -22px;
             margin-top: -18px;
-            z-index: 99;
+            z-index: 89;
         }
         
-        /*
-        Sunbrust
+        /* Sunbrust
         ****************************************** */        
-        
         .sunbrust {
             min-height: 85%;
-            
             background:
               -webkit-linear-gradient(27deg,transparent 70%,black 70%,black),
               -webkit-linear-gradient(19deg,transparent 65%,rgba(255,255,0,.7) 65%,rgba(255,255,0,.7)),
@@ -462,7 +424,6 @@
             
             background-position: center 0;
             background-size: 80px 80px;
-            
             -webkit-filter: blur(.4px);
 			-moz-filter: blur(.4px);
 			-ms-filter: blur(.4px);
@@ -470,15 +431,12 @@
             opacity: 0.4;
         }
         
-        /*
-        Car Stand
+        /* Car Stand
         ****************************************** */        
-        
         .wrap-car-stand {
             margin: -92px 1.8% auto 1.9%;
             margin-bottom: 50px;
             padding-left: 3%;
-            1background: red;
         }
         .car-stand {
             position: relative;
@@ -533,55 +491,11 @@
             -webkit-transform-origin: botton center;
             transform-origin: botton center;
             top: -7px;
-            z-index: 90;
             box-shadow: 1px 11px 20px #4a4a4a;
         }
-        .display ul li div.my_back .set-status-box.newTemp .status-subBox i.material-icons {
-            margin-top: 21px;
-            font-size: 1.3rem;
-        }
-        
-        /*
-        Car Icon
-        ****************************************** */        
 
-        .display ul li div.my_back .set-status-box.newTemp  div.car-icon {
-            background: url(assets/car-icon.svg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: absolute;
-            width: 30px;
-            height: 20px;
-            margin-left: 13px;
-            margin-top: 15px;
-            transform: scale(1.4);
-            z-index: 99;
-        }
-        .display ul li div.my_back .set-status-box.newTemp .carAtStore div.car-icon {
-            margin-left: 11px;
-            margin-top: -25px;
-        }
-        
-        /*
-        Mechanic Icon
+        /* Flip Card
         ****************************************** */        
-
-        .display ul li div.my_back .set-status-box.newTemp .status-subBox:nth-child(3) .mechanic {
-            background: url(assets/handyman.svg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: absolute;
-            width: 40px;
-            height: 80px;
-            margin-left: 23px;
-            margin-top: -31px;
-            transform: scale(.5);
-            opacity: .5;
-        }        
-        
-        /*************************************************************************
-        FLIP CARD - START
-        **************************************************************************/
         div.my_front, div.my_back {
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
@@ -678,9 +592,9 @@
           }
         }
         
-        /*************************************************************************
+        /*************************************************************
         MEDIA QUERIES - START
-        **************************************************************************/
+        **************************************************************/
         @media screen and (min-width: 679px) {
             .display ul li {
                 1margin: auto 2rem 3rem 2rem;
@@ -768,14 +682,14 @@
        </section>
        
        <section class="display">
-          <h5 data-js="status">Nenhum veículo cadastrado</h5>
+          <h5 data-js="message-display">Nenhum veículo cadastrado</h5>
           
           <ul data-js="cadastro">
                           
-            <li class="isAvailable">
+
+        <!--<li class="isAvailable">
                 <div array-count="1" class="my_card is-switched">
                     <div class="card__wrapper">
-
                         <div class="my_front">
                             <div data-js="flip-btn">
                                 <i class="material-icons">import_export</i>
@@ -795,81 +709,38 @@
                                 <i class="material-icons">vpn_key</i>
                             </h6>
                         </div>
-
                         <div class="my_back">
                             <div data-js="flip-btn">
                                 <i class="material-icons">import_export</i>
                             </div>
-                            
-                            <h6 class="show-status">disponível</h6>
-                            
-                            <div class="set-status-box newTemp" id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-                               
-                                <div class="status-subBox carAtCustomer">
-                                   
-<!--                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>-->
-                                    
-                                </div>
-                                
-                                <div class="status-subBox carAtStore" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                   
+                            <h6 class="status-text">disponível</h6>
+                            <div class="back-card-background">
+                                <input data-js="status-switcher" type="range" min="0" max="2" />
+                                <div class="store-wrapper">
                                     <span class="store">loja</span>
-                                    
                                     <div class="sunbrust"></div>
-                                    
-                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>
-                                    
-                               
                                     <div class="wrap-car-stand">
-                                       
                                         <div class="car-stand"></div>
-                                        
                                     </div>
-                                    
                                 </div>
-                                
-                                <div class="status-subBox" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                   
-                                    
-                                    <div class="car-icon" id="drag1" draggable="true" ondragstart="drag(event)"></div>
-                                
+                                <div class="mechanic-wrapper" >
                                     <div class="mechanic"></div>
-                                
                                 </div>
-                                
                             </div>
-                            
                             <h6 class="status-icon">
                                 <i class="material-icons">vpn_key</i>
                             </h6>
-
                         </div>
-                        
                     </div>
                 </div>
-            </li>
+            </li>-->
+
                           
            </ul>
        </section>
    </div>
    <script type="text/javascript" src="DOM.js"></script>
    <script type="text/javascript" src="rent-a-car-project.js"></script>
-   
-   <script>
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
-    }
-    </script>
    
 </body>
 </html>

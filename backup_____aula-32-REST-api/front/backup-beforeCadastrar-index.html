@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax POST - Aula 32 REST api</title>
+</head>
+<body>
+    <script>
+        (function (){
+            'use strict';
+            // Atenção para a ordem, ela importa!
+
+            // 1. Instaciar o objeto:
+            var ajax = new XMLHttpRequest();
+
+            // 2. Abrir a conexão:
+            ajax.open('POST', 'http://localhost:3000/user');
+
+            // 3. Settar o header:
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // 4. Enviar os dados:
+            ajax.send('username=roberto&age=32');
+
+            // 5. Assistir o evento:
+            ajax.onreadystatechange = function(){
+                if(ajax.readyState === 4){
+                    console.log('Usuário cadastrado!', ajax.responseText);
+                }
+            };
+            
+            // 5. Outra alternativa para ouvir o evento:
+            /*
+            ajax.addEventListener('readystatechange', function(e){
+                if (ajax.readyState === 4) {
+                    console.log('Usuário cadastrado!');
+                }
+            }, false);
+            */
+
+        })();
+    </script>
+</body>
+</html>

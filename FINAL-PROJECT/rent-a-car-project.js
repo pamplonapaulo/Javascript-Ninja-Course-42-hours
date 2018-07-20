@@ -1,40 +1,6 @@
 (function(doc, DOM) {
   'use strict';
 
-  /*
-  Vamos estruturar um pequeno app utilizando módulos.
-  Nosso APP vai ser um cadastro de carros. Vamos fazê-lo por partes.
-  A primeira etapa vai ser o cadastro de veículos, de deverá funcionar da
-  seguinte forma:
-  - No início do arquivo, deverá ter as informações da sua empresa - nome e
-  telefone (já vamos ver como isso vai ser feito)
-  - Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
-  um formulário para cadastro do carro, com os seguintes campos:
-    - Imagem do carro (deverá aceitar uma URL)
-    - Marca / Modelo
-    - Ano
-    - Placa
-    - Cor
-    - e um botão "Cadastrar"
-
-  Logo abaixo do formulário, deverá ter uma tabela que irá mostrar todos os
-  carros cadastrados. Ao clicar no botão de cadastrar, o novo carro deverá
-  aparecer no final da tabela.
-
-  Agora você precisa dar um nome para o seu app. Imagine que ele seja uma
-  empresa que vende carros. Esse nosso app será só um catálogo, por enquanto.
-  Dê um nome para a empresa e um telefone fictício, preechendo essas informações
-  no arquivo company.json que já está criado.
-
-  Essas informações devem ser adicionadas no HTML via Ajax.
-
-  Parte técnica:
-  Separe o nosso módulo de DOM criado nas últimas aulas em
-  um arquivo DOM.js.
-
-  E aqui nesse arquivo, faça a lógica para cadastrar os carros, em um módulo
-  que será nomeado de "app".
-  */
     function app(){
         
         var carsArray = [];
@@ -46,7 +12,7 @@
         var $cor = new DOM('[data-js="input-cor"]');
         var $imageUrl = new DOM('[data-js="input-url"]');
         var $submit = new DOM('[type="submit"]');
-        var $status = new DOM('[data-js="status"]');
+        var $message = new DOM('[data-js="message-display"]');
         var $cadastro = new DOM('[data-js="cadastro"]');
         
         function loadCompany(){
@@ -98,9 +64,9 @@
             carsArray.push(newCar);
             
             htmlBuilder();
-            
-            getMessage();
-            
+            setMessage();
+            setFlipButtons();
+            setSwitcher();
         }        
                         
         function htmlBuilder(){
@@ -109,63 +75,104 @@
                         
             for (var i=0; i<carsArray.length; i++){
                 
-                html += '<li class="' + carsArray[i].status + '"><div array-count="' + i + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[i].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[i].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[i].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[i].placa + '</h6><h6>Cor:</h6><h6 data-js="cor">' + carsArray[i].cor +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[i].imageUrl + '\');"></div><h6><i class="material-icons">' + getStatusIcon(i) + '</i></h6></div>' + 
-                
-                '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="show-status">' + getStatusTitle(i) + '</h6><div class="set-status-box"><input data-js="rentIt" value="Alugar" type="button" /><input data-js="receiveIt" value="Receber" type="button" /><input data-js="fixIt" value="Consertar" type="button" /></div><div class="wrap"><h6>Serial Number<span data-js="">' + carsArray[i].serial + '</span></h6></div><h6 class="status-icon"><i class="material-icons">' + getStatusIcon(i) + '</i></h6></div></div></div></li>';
+                html += '<li class="' + carsArray[i].status + '"><div array-count="' + i + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[i].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[i].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[i].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[i].placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + carsArray[i].serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[i].imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(i) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(i) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div></div></div></li>';
             }
             
-            $cadastro.element[0].innerHTML = html;            
-             
-            var $flipButtons = document.querySelectorAll('[data-js="flip-btn"]');
-            
-            for (var x = 0; x < $flipButtons.length; x++){
-               $flipButtons[x].addEventListener('click', function(){
-                   event.preventDefault();
-                   
-                   this.closest('[array-count]').classList.toggle('is-switched');
-                                      
-                   //var indexValue = this.closest('[array-count]').attributes[0].nodeValue;
-                   //carsArray.splice(indexValue,1);
-                   //htmlBuilder();
-                   //getMessage();
-               })
-            }
-            
+            $cadastro.element[0].innerHTML = html;
         }
                 
-        function getMessage(){
-            $status.element[0].innerHTML = 'Veículos cadastrados: ' + (carsArray.length);            
+        function setMessage(){
+            $message.element[0].innerHTML = 'Veículos cadastrados: ' + (carsArray.length);            
         }
         
         function getStatus(index){
             return carsArray[index].status;
         }
         
-        function getStatusIcon(index){
+        function setStatusIcon(index){
             if (carsArray[index].status === 'isAvailable'){
                 return 'vpn_key';
-            } else if (carsArray[index].status === 'isRented'){
+            }
+            if (carsArray[index].status === 'isRented'){
                 return 'block';
-            } else if (carsArray[index].status === 'isDelayed'){
+            }
+            if (carsArray[index].status === 'isDelayed'){
                 return 'alarm';
-            } else if (carsArray[index].status === 'isFixing'){
+            }
+            if (carsArray[index].status === 'isFixing'){
                 return 'report';
             }        
         }
-        function getStatusTitle(index){
+        
+        function setStatusTitle(index){
             if (carsArray[index].status === 'isAvailable'){
                 return 'disponível';
-            } else if (carsArray[index].status === 'isRented'){
+            }
+            if (carsArray[index].status === 'isRented'){
                 return 'alugado';
-            } else if (carsArray[index].status === 'isDelayed'){
+            }
+            if (carsArray[index].status === 'isDelayed'){
                 return 'atrasado';
-            } else if (carsArray[index].status === 'isFixing'){
+            }
+            if (carsArray[index].status === 'isFixing'){
                 return 'manutenção';
             }        
-        }        
+        }
         
+        function setLittleCarPosition(index){
+            if (carsArray[index].status === 'isRented' || carsArray[index].status === 'isDelayed'){
+                return 0;
+            }
+            if (carsArray[index].status === 'isAvailable'){
+                return 1;
+            }
+            if (carsArray[index].status === 'isFixing'){
+                return 2;
+            }        
+        }
         
+        function changeCarStatus(){
+            var carIndex = this.closest('[array-count]').attributes[0].value;
+            var switcherPosition = this.closest('[data-js="status-switcher"]').value;
+            
+            if (switcherPosition == 0){
+                carsArray[carIndex].status = 'isRented';
+            }
+            if (switcherPosition == 1){
+                carsArray[carIndex].status = 'isAvailable';
+            }
+            if (switcherPosition == 2){
+                carsArray[carIndex].status = 'isFixing';
+            }
+            
+            rebuildSingleCard(carIndex);
+            setSwitcher();
+            setFlipButtons();
+        }
         
+        function rebuildSingleCard(index){
+            
+            var cardHtml = '<li class="' + carsArray[index].status + '"><div array-count="' + index + '" class="my_card is-switched"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[index].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[index].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[index].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[index].placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + carsArray[index].serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[index].imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(index) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(index) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(index) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(index) + '</i></h6></div></div></div></li>';
+            
+            var $cardToChange = document.querySelector('[array-count="' + index + '"]');
+            
+            $cardToChange.closest('li').outerHTML = cardHtml;
+        }
+        
+        function setFlipButtons(){
+            var $flipButtons = document.querySelectorAll('[data-js="flip-btn"]');
+            for (var x = 0; x < $flipButtons.length; x++){
+               $flipButtons[x].addEventListener('click', function(){
+                   event.preventDefault();
+                   this.closest('[array-count]').classList.toggle('is-switched');
+               });
+            }             
+        }
+        
+        function setSwitcher(){
+            var $statusSwitcher = new DOM('[data-js="status-switcher"]');
+            $statusSwitcher.on('click', changeCarStatus);                        
+        }
         
     }
 
@@ -173,3 +180,22 @@
     app();
     
 })(document, window.DOM);
+
+
+
+
+/*      LATER: CREATE DELETE BUTTON ON HTML & CSS, THEN TRY THIS:
+
+        function setDeleteButtons(){
+            var $deleteButtons = document.querySelectorAll('[data-js="delete-btn"]');
+            for (var x = 0; x < $deleteButtons.length; x++){
+               $deleteButtons[x].addEventListener('click', function(){
+                   event.preventDefault();                   
+                   var indexValue = this.closest('[array-count]').attributes[0].nodeValue;
+                   carsArray.splice(indexValue,1);
+                   htmlBuilder();
+                   setMessage();
+               });
+            }             
+        }        
+*/
