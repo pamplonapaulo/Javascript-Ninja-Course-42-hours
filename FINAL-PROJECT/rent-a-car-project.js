@@ -68,11 +68,9 @@
             setFlipButtons();
             setSwitcher();
         }        
-                        
-        function htmlBuilder(){
-                        
+                
+        function htmlBuilder(){                        
             var html = '';
-                        
             for (var i=0; i<carsArray.length; i++){
                 
                 html += '<li class="' + carsArray[i].status + '"><div array-count="' + i + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[i].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[i].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[i].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[i].placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + carsArray[i].serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[i].imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(i) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(i) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div></div></div></li>';
@@ -90,50 +88,40 @@
         }
         
         function setStatusIcon(index){
-            if (carsArray[index].status === 'isAvailable'){
+            if (carsArray[index].status === 'isAvailable')
                 return 'vpn_key';
-            }
-            if (carsArray[index].status === 'isRented'){
+            if (carsArray[index].status === 'isRented')
                 return 'block';
-            }
-            if (carsArray[index].status === 'isDelayed'){
+            if (carsArray[index].status === 'isDelayed')
                 return 'alarm';
-            }
-            if (carsArray[index].status === 'isFixing'){
+            if (carsArray[index].status === 'isFixing')
                 return 'report';
-            }        
         }
         
         function setStatusTitle(index){
-            if (carsArray[index].status === 'isAvailable'){
+            if (carsArray[index].status === 'isAvailable')
                 return 'disponível';
-            }
-            if (carsArray[index].status === 'isRented'){
+            if (carsArray[index].status === 'isRented')
                 return 'alugado';
-            }
-            if (carsArray[index].status === 'isDelayed'){
+            if (carsArray[index].status === 'isDelayed')
                 return 'atrasado';
-            }
-            if (carsArray[index].status === 'isFixing'){
+            if (carsArray[index].status === 'isFixing')
                 return 'manutenção';
-            }        
         }
         
         function setLittleCarPosition(index){
-            if (carsArray[index].status === 'isRented' || carsArray[index].status === 'isDelayed'){
+            if (carsArray[index].status === 'isRented' || carsArray[index].status === 'isDelayed')
                 return 0;
-            }
-            if (carsArray[index].status === 'isAvailable'){
+            if (carsArray[index].status === 'isAvailable')
                 return 1;
-            }
-            if (carsArray[index].status === 'isFixing'){
+            if (carsArray[index].status === 'isFixing')
                 return 2;
-            }        
         }
         
         function changeCarStatus(){
+                        
             var carIndex = this.closest('[array-count]').attributes[0].value;
-            var switcherPosition = this.closest('[data-js="status-switcher"]').value;
+            var switcherPosition = this.value;
             
             if (switcherPosition == 0){
                 carsArray[carIndex].status = 'isRented';
@@ -145,12 +133,12 @@
                 carsArray[carIndex].status = 'isFixing';
             }
             
-            rebuildSingleCard(carIndex);
+            updateHTMLcard(carIndex);
             setSwitcher();
             setFlipButtons();
         }
         
-        function rebuildSingleCard(index){
+        function updateHTMLcard(index){
             
             var cardHtml = '<li class="' + carsArray[index].status + '"><div array-count="' + index + '" class="my_card is-switched"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[index].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[index].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[index].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[index].placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + carsArray[index].serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[index].imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(index) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(index) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(index) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(index) + '</i></h6></div></div></div></li>';
             
@@ -180,9 +168,6 @@
     app();
     
 })(document, window.DOM);
-
-
-
 
 /*      LATER: CREATE DELETE BUTTON ON HTML & CSS, THEN TRY THIS:
 
