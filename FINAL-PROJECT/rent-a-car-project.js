@@ -63,28 +63,29 @@
                         
             carsArray.push(newCar);
             
-            htmlBuilder();
+            cardBuilder(newCar);
             setMessage();
             setFlipButtons();
             setSwitcher();
-        }        
-                
-        function htmlBuilder(){                        
-            var html = '';
-            for (var i=0; i<carsArray.length; i++){
-                
-                html += '<li class="' + carsArray[i].status + '"><div array-count="' + i + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + carsArray[i].modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + carsArray[i].marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + carsArray[i].ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + carsArray[i].placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + carsArray[i].serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + carsArray[i].imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(i) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(i) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(i) + '</i></h6></div></div></div></li>';
-            }
-            
-            $cadastro.element[0].innerHTML = html;
-        }
-                
-        function setMessage(){
-            $message.element[0].innerHTML = 'Veículos cadastrados: ' + (carsArray.length);            
         }
         
-        function getStatus(index){
-            return carsArray[index].status;
+        function cardBuilder(newCar){
+            
+            var newCard = document.createElement('li');
+            
+            newCard.classList.add(newCar.status);
+            
+            var carIndex = carsArray.length - 1;
+                
+            var html = '<div array-count="' + carIndex + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + newCar.modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + newCar.marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + newCar.ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + newCar.placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + newCar.serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + newCar.imageUrl + '\');"></div><h6><i class="material-icons">' + setStatusIcon(carIndex) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(carIndex) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(carIndex) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons">' + setStatusIcon(carIndex) + '</i></h6></div></div></div>';
+            
+            newCard.innerHTML = html;
+            
+            $cadastro.element[0].appendChild(newCard);
+        }        
+                        
+        function setMessage(){
+            $message.element[0].innerHTML = 'Veículos cadastrados: ' + (carsArray.length);            
         }
         
         function setStatusIcon(index){
@@ -145,6 +146,10 @@
             var $cardToChange = document.querySelector('[array-count="' + index + '"]');
             
             $cardToChange.closest('li').outerHTML = cardHtml;
+            
+            
+            
+            console.log(carsArray);
         }
         
         function setFlipButtons(){
@@ -178,7 +183,7 @@
                    event.preventDefault();                   
                    var indexValue = this.closest('[array-count]').attributes[0].nodeValue;
                    carsArray.splice(indexValue,1);
-                   htmlBuilder();
+                   //cardBuilder();
                    setMessage();
                });
             }             
