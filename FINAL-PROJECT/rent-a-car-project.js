@@ -136,7 +136,7 @@
             
             updateHTMLcard(carIndex);
             setSwitcher();
-            //setFlipButtons(carIndex);
+            setFlipButtons(carIndex);
         }
         
         function updateHTMLcard(index){
@@ -151,11 +151,8 @@
         function setFlipButtons(carIndex){
             
             var $thisCard = document.querySelector('[array-count="' + carIndex + '"]');
-            console.log($thisCard);
             
             var $cardFlipButtons = $thisCard.querySelectorAll('[data-js="flip-btn"]');
-            
-            console.log($cardFlipButtons);
             
             for (var x = 0; x < $cardFlipButtons.length; x++){
                $cardFlipButtons[x].addEventListener('click', function(){
