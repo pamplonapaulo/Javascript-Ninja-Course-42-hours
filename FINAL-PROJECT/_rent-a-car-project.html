@@ -163,7 +163,7 @@
         /*************************************************************************
         CARDS BOTH SIDES
         **************************************************************************/
-        .display ul li div[data-js="flip-btn"] {
+        [data-js="flip-btn"] {
             transition: .2s all ease;
             cursor: pointer;
             width: 40px;
@@ -175,18 +175,18 @@
             background-color: rgba(68,40,115, .7);
             padding-top: 0.2rem;
         }
-        .display ul li div[data-js="flip-btn"]:hover {
+        [data-js="flip-btn"]:hover {
             background-color: rgba(68,40,115, .9);
             transform: scale(1.2);
         }
-        .display ul li div[data-js="flip-btn"] i {
+        [data-js="flip-btn"] i {
             transition: .2s all ease;
             transform: rotate(90deg);
             font-size: 2.3rem;        
             color: rgba(242,233,127, 0.7);
         }
         
-        .display ul li div[data-js="flip-btn"]:hover i {
+        [data-js="flip-btn"]:hover i {
             text-shadow: 2px 2px 2px black;
             color: var(--yellow);
         }        
@@ -278,14 +278,34 @@
         
         /* Back Card 
         ****************************************** */
-        .display ul li .my_back [data-js="flip-btn"] {
+        [data-js="delete"] {
+            position: absolute;
+            right: 40px;
+            top: 5px;
+            transition: .2s all ease;
+        }
+        [data-js="delete"]:hover {
+            transform: scale(1.2);
+        }        
+        [data-js="delete"] i {
+            font-size: 2.3rem;        
+            color: rgba(242,233,127, 0.7);
+            cursor: pointer;
+            transition: .2s all ease;
+        }
+        [data-js="delete"]:hover i {
+            text-shadow: 2px 2px 2px black;
+            color: var(--yellow);
+        }  
+        
+        .my_back [data-js="flip-btn"] {
             background-color: transparent;
         }
-        .display ul li .my_back [data-js="flip-btn"]:hover {
+        .my_back [data-js="flip-btn"]:hover {
             background-color: transparent;
         }  
         .my_back .status-text {
-            margin: 1rem auto 0rem 2rem;
+            margin: 1rem auto 0rem -20px;
             padding-top: .5rem;
             text-transform: uppercase;
             font-weight: 600;
@@ -296,7 +316,7 @@
             background: rgba(255,0,0,1);
             border-radius: 50%;
             border: 2px solid rgba(255,255,0,00.60);
-            margin-left: 30px;
+            margin-left: 15px;
             margin-top: -30px;
             font-size: 1.5rem;
             width: 40px;
@@ -333,7 +353,7 @@
             padding: 0;
             z-index: 99;
             margin-top: 35px;
-            margin-left: 30px;
+            margin-left: 34px;
             float: left;
         }
         input[type=range]::-moz-range-track, 
@@ -371,7 +391,6 @@
         .mechanic-wrapper {
             margin-right: 30px;
             width: 33px;
-
         }        
         .mechanic {
             background: url(assets/handyman.svg);
@@ -379,7 +398,7 @@
             background-size: cover;
             width: 40px;
             height: 80px;
-            margin-left: 13px;
+            margin-left: 18px;
             margin-top: -31px;
             transform: scale(.5);
             opacity: .5;
@@ -388,7 +407,7 @@
         /* Display "Loja"
         ****************************************** */        
         .store-wrapper {
-            margin-left: -190px;
+            margin-left: -192px;
         }
         span.store {
             position: fixed;
@@ -685,57 +704,7 @@
           <h5 data-js="message-display">Nenhum veículo cadastrado</h5>
           
           <ul data-js="cadastro">
-                          
-
-        <!--<li class="isAvailable">
-                <div array-count="1" class="my_card is-switched">
-                    <div class="card__wrapper">
-                        <div class="my_front">
-                            <div data-js="flip-btn">
-                                <i class="material-icons">import_export</i>
-                            </div>
-                            <h6>Modelo:</h6>
-                            <h6 data-js="modelo">Conversível</h6>
-                            <h6>Marca:</h6>
-                            <h6 data-js="marca">Ferrari</h6>
-                            <h6>Ano:</h6>
-                            <h6 data-js="ano">2018</h6>
-                            <h6>Placa:</h6>
-                            <h6 data-js="placa">ABC 2011</h6>
-                            <h6>Serial Number:</h6>
-                            <h6 data-js="cor">99</h6>
-                            <div class="circle" data-js="img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRphTa6LkWu64btsVlhY4_sPxDqL8aPQtL6zwKrTMHPtAiwKNFH');"></div>
-                            <h6>
-                                <i class="material-icons">vpn_key</i>
-                            </h6>
-                        </div>
-                        <div class="my_back">
-                            <div data-js="flip-btn">
-                                <i class="material-icons">import_export</i>
-                            </div>
-                            <h6 class="status-text">disponível</h6>
-                            <div class="back-card-background">
-                                <input data-js="status-switcher" type="range" min="0" max="2" />
-                                <div class="store-wrapper">
-                                    <span class="store">loja</span>
-                                    <div class="sunbrust"></div>
-                                    <div class="wrap-car-stand">
-                                        <div class="car-stand"></div>
-                                    </div>
-                                </div>
-                                <div class="mechanic-wrapper" >
-                                    <div class="mechanic"></div>
-                                </div>
-                            </div>
-                            <h6 class="status-icon">
-                                <i class="material-icons">vpn_key</i>
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-            </li>-->
-
-                          
+          
            </ul>
        </section>
    </div>

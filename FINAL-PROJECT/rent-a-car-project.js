@@ -67,6 +67,7 @@
             cardBuilder(newCar, carIndex);
             setMessage();
             setFlipButtons(carIndex);
+            setDeleteButton(carIndex);
             setSwitcher();
         }
         
@@ -76,7 +77,7 @@
             
             newCard.classList.add(newCar.status);
                 
-            var html = '<div array-count="' + carIndex + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + newCar.modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + newCar.marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + newCar.ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + newCar.placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + newCar.serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + newCar.imageUrl + '\');"></div><h6><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6 class="status-text">' + setStatusTitle(carIndex) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(carIndex) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div></div></div>';
+            var html = '<div array-count="' + carIndex + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + newCar.modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + newCar.marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + newCar.ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + newCar.placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + newCar.serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + newCar.imageUrl + '\');"></div><h6><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><div data-js="delete"><i class="material-icons">delete_forever</i></div><h6 class="status-text">' + setStatusTitle(carIndex) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(carIndex) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div></div></div>';
             
             newCard.innerHTML = html;
             
@@ -163,6 +164,27 @@
             }
         }
         
+        function setDeleteButton(carIndex){
+            var $selector = document.querySelector('[array-count="' + carIndex + '"]');
+            var $deleteButton = $selector.querySelector('[data-js="delete"]');
+            var $cardElement = $selector.parentElement;
+            
+            $deleteButton.addEventListener('click', function(){
+                
+                carsArray.splice(carIndex,1);
+                                
+                $cardElement.parentNode.removeChild($cardElement);
+                                
+                console.log($cardElement);
+                console.log($cadastro);
+                console.log(carsArray);
+                
+                setMessage();
+                
+            });         
+            
+        }
+        
         function setSwitcher(){
             var $statusSwitcher = new DOM('[data-js="status-switcher"]');
             $statusSwitcher.on('click', changeCarStatus);                        
@@ -173,19 +195,3 @@
     app();
     
 })(document, window.DOM);
-
-/*      LATER: CREATE DELETE BUTTON ON HTML & CSS, THEN TRY THIS:
-
-        function setDeleteButtons(){
-            var $deleteButtons = document.querySelectorAll('[data-js="delete-btn"]');
-            for (var x = 0; x < $deleteButtons.length; x++){
-               $deleteButtons[x].addEventListener('click', function(){
-                   event.preventDefault();                   
-                   var indexValue = this.closest('[array-count]').attributes[0].nodeValue;
-                   carsArray.splice(indexValue,1);
-                   //cardBuilder();
-                   setMessage();
-               });
-            }             
-        }        
-*/
