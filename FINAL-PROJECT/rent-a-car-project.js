@@ -3,6 +3,8 @@
 
     function app(){
         
+        var debuggerCounter = 0;
+        
         var carsArray = [];
         var $formNewCar = new DOM('[data-js="new-car"]');
         var $modelo = new DOM('[data-js="input-modelo"]');
@@ -47,7 +49,6 @@
             this.placa = placa.element[0].value;
             this.cor = cor.element[0].value;
             this.imageUrl = imageUrl.element[0].value;
-            this.serial = (1 + carsArray.length).toString();
             this.status = 'isAvailable';
             this.rentDailyPrice = 140;
             this.rentDailyTaxes = 0.15;
@@ -59,32 +60,50 @@
             event.preventDefault();
             
             var newCar = new Carro($modelo,$marca,$ano,$placa,$cor,$imageUrl);
-            var carIndex;
-                        
-            carsArray.push(newCar);
-            carIndex = carsArray.length - 1;
             
-            cardBuilder(newCar, carIndex);
-            setMessage();
-            setFlipButtons(carIndex);
-            setDeleteButton(carIndex);
-            setSwitcher();
+            idGenerator(newCar);
+            carsArray.push(newCar);
+            
+            cardBuilder(newCar);
+            updateMessage();
+            setFlipBtn(newCar);
+            setDeleteBtn(newCar);
+            setSwitcher(newCar);
         }
         
-        function cardBuilder(newCar, carIndex){
+        function idGenerator(newCar){
+            newCar.id = sortNumber();
+            if (carsArray.length > 0)
+                return scanDuplication(newCar);    
+        }
+        
+        function sortNumber(){
+            return Math.round(Math.random() * 99);
+        }
+        
+        function scanDuplication(newCar){
+            for (var i=0; i<carsArray.length; i++){
+                if(carsArray[i].id === newCar.id){
+                    newCar.id = sortNumber();
+                    scanDuplication(newCar);
+                }
+            }
+        }
+        
+        function cardBuilder(newCar){
             
-            var newCard = document.createElement('li');
-            
-            newCard.classList.add(newCar.status);
+            var card = document.createElement('li');
+            card.setAttribute("id", newCar.id);
+            card.classList.add(newCar.status);
                 
-            var html = '<div array-count="' + carIndex + '" class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + newCar.modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + newCar.marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + newCar.ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + newCar.placa + '</h6><h6>Serial Number:</h6><h6 data-js="serial">' + newCar.serial +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + newCar.imageUrl + '\');"></div><h6><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><div data-js="delete"><i class="material-icons">delete_forever</i></div><h6 class="status-text">' + setStatusTitle(carIndex) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(carIndex) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons car-status-icon">' + setStatusIcon(carIndex) + '</i></h6></div></div></div>';
+            var html = '<div class="my_card"><div class="card__wrapper"><div class="my_front"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><h6>Modelo:</h6><h6 data-js="modelo">' + newCar.modelo + '</h6><h6>Marca:</h6><h6 data-js="marca">' + newCar.marca + '</h6><h6>Ano:</h6><h6 data-js="ano">' + newCar.ano + '</h6><h6>Placa:</h6><h6 data-js="placa">' + newCar.placa + '</h6><h6>ID number:</h6><h6 data-js="id">' + newCar.id +'</h6><div class="circle" data-js="img" style="background-image: url(\'' + newCar.imageUrl + '\');"></div><h6><i class="material-icons car-status-icon">' + setStatusIcon(indexSelector(newCar)) + '</i></h6></div>' + '<div class="my_back"><div data-js="flip-btn"><i class="material-icons">import_export</i></div><div data-js="delete"><i class="material-icons">delete_forever</i></div><h6 class="status-text">' + setStatusTitle(indexSelector(newCar)) + '</h6><div class="back-card-background"><input data-js="status-switcher" type="range" min="0" max="2" value="' + setLittleCarPosition(indexSelector(newCar)) + '" /><div class="store-wrapper"><span class="store">loja</span><div class="sunbrust"></div><div class="wrap-car-stand"><div class="car-stand"></div></div></div><div class="mechanic-wrapper" ><div class="mechanic"></div></div></div><h6 class="status-icon"><i class="material-icons car-status-icon">' + setStatusIcon(indexSelector(newCar)) + '</i></h6></div></div></div>';
             
-            newCard.innerHTML = html;
+            card.innerHTML = html;
             
-            $cadastro.element[0].appendChild(newCard);
+            $cadastro.element[0].appendChild(card);
         }        
                         
-        function setMessage(){
+        function updateMessage(){
             $message.element[0].innerHTML = 'Veículos cadastrados: ' + (carsArray.length);
         }
         
@@ -119,75 +138,72 @@
                 return 2;
         }
         
-        function changeCarStatus(){
-                        
-            var carIndex = this.closest('[array-count]').attributes[0].value;
-            var switcherPosition = this.value;
-            
-            if (switcherPosition == 0){
-                carsArray[carIndex].status = 'isRented';
-            }
-            if (switcherPosition == 1){
-                carsArray[carIndex].status = 'isAvailable';
-            }
-            if (switcherPosition == 2){
-                carsArray[carIndex].status = 'isFixing';
-            }
-            updateCardStatus(carIndex);
+        function setSwitcher(newCar){
+            var $switchersArray = idSelector(newCar).querySelector('[data-js="status-switcher"]');
+            $switchersArray.addEventListener('click', changeCarStatus(newCar) );    
         }
         
-        function updateCardStatus(index){
+        function changeCarStatus(newCar){
+            return function (e) {
+
+                var index = indexSelector(newCar);
+
+                if (event.target.value == 0)
+                    carsArray[indexSelector(newCar)].status = 'isRented';
+                if (event.target.value == 1)                  
+                    carsArray[indexSelector(newCar)].status = 'isAvailable';
+                if (event.target.value == 2)
+                    carsArray[indexSelector(newCar)].status = 'isFixing';
+
+                updateCardHtlm(index, newCar);
+            }
+        }  
+        
+        function updateCardHtlm(index, newCar){
+            var $statusIcon = idSelector(newCar).querySelectorAll('.car-status-icon');
+            var $statusText = idSelector(newCar).querySelector('.status-text');
+            var $switcherValue = idSelector(newCar).querySelector('[data-js="status-switcher"]');
             
-            var $cardToChange = document.querySelector('[array-count="' + index + '"]').parentElement;
-            var $statusIcon = $cardToChange.querySelectorAll('.car-status-icon');
-            var $statusText = $cardToChange.querySelector('.status-text');
-            var $switcherValue = $cardToChange.querySelector('[data-js="status-switcher"]');
+            // LI element:
+            idSelector(newCar).classList.remove('isAvailable', 'isFixing', 'isRented', 'isDelayed');
+            idSelector(newCar).classList.add(carsArray[index].status);
             
-            $cardToChange.classList.remove('isAvailable', 'isFixing', 'isRented', 'isDelayed');
-            $cardToChange.classList.add(carsArray[index].status);
-            
+            // front-card:
             $statusIcon[0].innerHTML = setStatusIcon(index);
+            
+            // back-card:
             $statusIcon[1].innerHTML = setStatusIcon(index);
             $statusText.innerHTML = setStatusTitle(index);
             $switcherValue.setAttribute("value", setLittleCarPosition(index));
         }
-                
-        function setFlipButtons(carIndex){
-            
-            var $thisCard = document.querySelector('[array-count="' + carIndex + '"]');
-            var $cardFlipButtons = $thisCard.querySelectorAll('[data-js="flip-btn"]');
-            
-            for (var x = 0; x < $cardFlipButtons.length; x++){
-               $cardFlipButtons[x].addEventListener('click', function(){
-                   $thisCard.classList.toggle('is-switched');
+        
+        function setFlipBtn(newCar){
+            var $flipBtn = idSelector(newCar).querySelectorAll('[data-js="flip-btn"]');
+            for (var x = 0; x < $flipBtn.length; x++){
+               $flipBtn[x].addEventListener('click', function(){
+                   idSelector(newCar).childNodes[0].classList.toggle('is-switched');
                });
             }
         }
         
-        function setDeleteButton(carIndex){
-            var $selector = document.querySelector('[array-count="' + carIndex + '"]');
-            var $deleteButton = $selector.querySelector('[data-js="delete"]');
-            var $cardElement = $selector.parentElement;
-            
-            $deleteButton.addEventListener('click', function(){
-                
-                carsArray.splice(carIndex,1);
-                                
-                $cardElement.parentNode.removeChild($cardElement);
-                                
-                console.log($cardElement);
-                console.log($cadastro);
-                console.log(carsArray);
-                
-                setMessage();
-                
+        function setDeleteBtn(newCar){
+            var $deleteBtn = idSelector(newCar).querySelector('[data-js="delete"]');
+            $deleteBtn.addEventListener('click', function(){
+                carsArray.splice(indexSelector(newCar),1);
+                idSelector(newCar).parentNode.removeChild(idSelector(newCar));
+                updateMessage();
             });         
-            
         }
         
-        function setSwitcher(){
-            var $statusSwitcher = new DOM('[data-js="status-switcher"]');
-            $statusSwitcher.on('click', changeCarStatus);                        
+        function indexSelector(newCar){
+            for (var i=0; i<carsArray.length; i++){
+                if(carsArray[i].id === newCar.id)
+                    return i;
+            }            
+        }
+        
+        function idSelector(newCar){
+            return document.querySelector('[id="' + newCar.id + '"]');
         }
     }
 
