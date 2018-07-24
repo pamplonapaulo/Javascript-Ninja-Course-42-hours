@@ -50,8 +50,8 @@
             this.cor = cor.element[0].value;
             this.imageUrl = imageUrl.element[0].value;
             this.status = 'isAvailable';
-            this.rentDailyPrice = 140;
-            this.rentDailyTaxes = 0.15;
+            //this.rentDailyPrice = 140;
+            //this.rentDailyTaxes = 0.15;
         }
         
         $formNewCar.on('submit', handleSubmitForm);        
@@ -66,9 +66,12 @@
             
             cardBuilder(newCar);
             updateMessage();
+            
             setFlipBtn(newCar);
             setDeleteBtn(newCar);
-            setSwitcher(newCar);
+            setSwitcherBtn(newCar);
+            
+            saveOnServer(newCar);
         }
         
         function idGenerator(newCar){
@@ -138,11 +141,6 @@
                 return 2;
         }
         
-        function setSwitcher(newCar){
-            var $switchersArray = idSelector(newCar).querySelector('[data-js="status-switcher"]');
-            $switchersArray.addEventListener('click', changeCarStatus(newCar) );    
-        }
-        
         function changeCarStatus(newCar){
             return function (e) {
 
@@ -186,6 +184,11 @@
             }
         }
         
+        function setSwitcherBtn(newCar){
+            var $switchersArray = idSelector(newCar).querySelector('[data-js="status-switcher"]');
+            $switchersArray.addEventListener('click', changeCarStatus(newCar) );    
+        }
+        
         function setDeleteBtn(newCar){
             var $deleteBtn = idSelector(newCar).querySelector('[data-js="delete"]');
             $deleteBtn.addEventListener('click', function(){
@@ -204,6 +207,36 @@
         
         function idSelector(newCar){
             return document.querySelector('[id="' + newCar.id + '"]');
+        }
+        
+        
+        function saveOnServer(newCar){
+            
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', 'http://localhost:3000/car');
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            ajax.send('image='+newCar.imageUrl+
+                      '&id='+newCar.id+
+                      '&brandModel='+newCar.modelo+
+                      '&year='+newCar.ano+
+                      '&plate='+newCar.placa+
+                      '&color='+newCar.cor);
+            
+            ajax.onreadystatechange = function(){
+                if(ajax.readySate == 4){
+                    console.log('Carro cadastrado!', ajax.responseText);
+                }
+            }
+                      
+            var get = new XMLHttpRequest();
+            get.open('GET', 'http://localhost:3000/car/');
+            get.send();
+            get.onreadystatechange = function(){
+                if(get.readyState === 4){
+                    
+                    console.log(JSON.parse(get.responseText)[indexSelector(newCar)]);
+                }
+            };
         }
     }
 
