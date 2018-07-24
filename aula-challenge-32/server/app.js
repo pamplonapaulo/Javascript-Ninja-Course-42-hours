@@ -13,8 +13,6 @@ app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.json({ message: 'hi' });
-    console.log('TESTE');
-    //console.log('TESTE', req.body);
 });
 
 app.use('/car', routes);
