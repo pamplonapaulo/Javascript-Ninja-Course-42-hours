@@ -71,7 +71,7 @@
             setDeleteBtn(newCar);
             setSwitcherBtn(newCar);
             
-            keepItOnServer(newCar);
+            saveOnServer(newCar);
         }
         
         function idGenerator(newCar){
@@ -154,7 +154,6 @@
                     carsArray[index].status = 'isFixing';
 
                 updateCardHtlm(index, newCar);
-                keepItOnServer(newCar);
             }
         }  
         
@@ -210,7 +209,8 @@
             return document.querySelector('[id="' + newCar.id + '"]');
         }
         
-        function keepItOnServer(newCar){
+        
+        function saveOnServer(newCar){
             
             var ajax = new XMLHttpRequest();
             ajax.open('POST', 'http://localhost:3000/car');
@@ -236,9 +236,59 @@
             get.onreadystatechange = function(){
                 if(get.readyState === 4){
                     
-                    //console.log(JSON.parse(get.responseText)[indexSelector(newCar)]);
+                    serverObjects = JSON.parse(get.responseText)[indexSelector(newCar)];
+                    
+                    console.log(serverObjects);
+                    console.log('paulo');
                 }
             };
+        }
+        
+        var serverObjects = '';
+        
+        function isPopulated(serverJSON){
+            if(serverJSON){
+                
+                console.log(serverJSON);
+               
+               } else {
+                   
+                console.log(serverJSON);
+               }            
+        } 
+        
+        //isPopulated(serverJSON);
+        
+        function serverJSON(){
+            
+            var get = new XMLHttpRequest();
+            get.open('GET', 'http://localhost:3000/car/' );
+            get.send();
+            get.onreadystatechange = function(){
+                if(get.readyState === 4){
+                    console.log(JSON.parse(get.responseText));
+                    console.log('rodando function serverJSON');
+                    
+                    return JSON.parse(get.responseText);
+                    
+                    //reloadExistingCards($json);
+                }
+            };            
+        }
+        
+        function reloadExistingCards(cars){
+            for(var i=0; i<cars.length; i++){
+                
+                
+            carsArray.push(cars[i]);
+            
+            cardBuilder(cars[i]);
+            
+            setFlipBtn(cars[i]);
+            setDeleteBtn(cars[i]);
+            setSwitcherBtn(cars[i]);
+            }
+            updateMessage(cars);
         }
     }
 

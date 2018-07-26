@@ -9,15 +9,50 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  data.push({
-    image: req.body.image,
-    id: req.body.id,
-    brandModel: req.body.brandModel,
-    year: req.body.year,
-    plate: req.body.plate,
-    color: req.body.color 
-  });
-    console.log('TESTE', req.body);
+    
+    var carToSave = {
+            status: req.body.status,
+            id: req.body.id,
+            marca: req.body.marca,
+            modelo: req.body.modelo,
+            ano: req.body.ano,
+            placa: req.body.placa,
+            cor: req.body.cor,
+            imageUrl: req.body.imageUrl
+        }
+    
+    var matchFound = data.some(hasExistingCar);
+    var indexOfMatch;
+
+    function hasExistingCar(value, index, array) {
+        if (array[index].id === req.body.id)
+            indexOfMatch = index;
+            return array[index].id === req.body.id;
+    }
+    
+    if (data.length !== 0 && matchFound){
+        //console.log('has match? ', matchFound);
+        //console.log(indexOfMatch);
+        //console.log('Changing status...');
+        data[indexOfMatch].status = req.body.status;
+        //console.log(data[indexOfMatch]);
+        matchFound = [];
+    }     
+    
+    if (data.length !== 0 && !matchFound){
+        //console.log('has match? ', matchFound);
+        //console.log('Saving car #', data.length+1);
+        data.push(carToSave);
+        //console.log(data);
+        matchFound = [];
+    }
+    
+    if (data.length === 0){
+        //console.log('Saving first car...');
+        data.push(carToSave);
+        //console.log(data);
+        matchFound = [];
+    }
     res.json({ message: 'success' });
 });
 
