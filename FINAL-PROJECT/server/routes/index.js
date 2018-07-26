@@ -30,27 +30,23 @@ router.post('/', function(req, res) {
             return array[index].id === req.body.id;
     }
     
-    if (data.length !== 0 && matchFound){
-        //console.log('has match? ', matchFound);
-        //console.log(indexOfMatch);
-        //console.log('Changing status...');
+    if (data.length !== 0 && matchFound && req.body.status === 'deleted'){
+        data.splice(indexOfMatch, 1);
+        matchFound = [];
+    }  
+    
+    if (data.length !== 0 && matchFound && req.body.status !== 'deleted'){
         data[indexOfMatch].status = req.body.status;
-        //console.log(data[indexOfMatch]);
         matchFound = [];
     }     
     
     if (data.length !== 0 && !matchFound){
-        //console.log('has match? ', matchFound);
-        //console.log('Saving car #', data.length+1);
         data.push(carToSave);
-        //console.log(data);
         matchFound = [];
     }
     
-    if (data.length === 0){
-        //console.log('Saving first car...');
+    if (data.length === 0 && req.body.status !== 'deleted'){
         data.push(carToSave);
-        //console.log(data);
         matchFound = [];
     }
     res.json({ message: 'success' });

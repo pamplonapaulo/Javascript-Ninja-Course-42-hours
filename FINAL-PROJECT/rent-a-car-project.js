@@ -3,8 +3,6 @@
 
     function app(){
         
-        var debuggerCounter = 0;
-        
         var carsArray = [];
         var $formNewCar = new DOM('[data-js="new-car"]');
         var $modelo = new DOM('[data-js="input-modelo"]');
@@ -41,6 +39,8 @@
             }
         }
         loadCompany();
+
+        loadCarsOnServer();
         
         function Carro(modelo, marca, ano, placa, cor, imageUrl) {
             this.modelo = modelo.element[0].value;
@@ -193,9 +193,14 @@
         function setDeleteBtn(newCar){
             var $deleteBtn = idSelector(newCar).querySelector('[data-js="delete"]');
             $deleteBtn.addEventListener('click', function(){
+                
                 carsArray.splice(indexSelector(newCar),1);
                 idSelector(newCar).parentNode.removeChild(idSelector(newCar));
-                updateMessage();
+                
+                newCar.status = 'deleted';
+                removeItfromServer(newCar);
+                
+                updateMessage(carsArray);
             });         
         }
         
@@ -226,7 +231,7 @@
             
             ajax.onreadystatechange = function(){
                 if(ajax.readySate == 4){
-                    console.log('Carro cadastrado!', ajax.responseText);
+                    console.log('Carro 111 cadastrado!', ajax.responseText);
                 }
             }
                       
@@ -236,7 +241,66 @@
             get.onreadystatechange = function(){
                 if(get.readyState === 4){
                     
-                    //console.log(JSON.parse(get.responseText)[indexSelector(newCar)]);
+                    console.log('Adding or changing: ', newCar.id);
+                }
+            };
+        }
+        
+        function removeItfromServer(car){
+                        
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', 'http://localhost:3000/car');
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            ajax.send('status='+car.status+
+                      '&id='+car.id+
+                      '&marca='+car.marca+
+                      '&modelo='+car.modelo+
+                      '&ano='+car.ano+
+                      '&placa='+car.placa+
+                      '&cor='+car.cor+
+                      '&imageUrl='+car.imageUrl);
+            
+            ajax.onreadystatechange = function(){
+                if(ajax.readySate == 4){
+                    console.log('Removing: ', ajax.responseText);
+                }
+            }
+                      
+            var get = new XMLHttpRequest();
+            get.open('GET', 'http://localhost:3000/car/');
+            get.send();
+            get.onreadystatechange = function(){
+                if(get.readyState === 4){
+                    
+                    console.log('Car removed from server: ', car.id);
+                }
+            };            
+        }
+        
+        function loadCarsOnServer(){
+            
+            var carsOnServer = [];
+            
+            var get = new XMLHttpRequest();
+            get.open('GET', 'http://localhost:3000/car/' );
+            get.send();
+            get.onreadystatechange = function(){
+                if(get.readyState === 4){
+                    
+                    carsOnServer = JSON.parse(get.responseText);
+                    
+                    if (carsOnServer.length !== 0){
+
+                        for (var i=0; i<carsOnServer.length; i++){
+
+                            carsArray.push(carsOnServer[i]);
+                            cardBuilder(carsOnServer[i]);
+                            updateMessage(carsArray);
+                            setFlipBtn(carsOnServer[i]);
+                            setDeleteBtn(carsOnServer[i]);
+                            setSwitcherBtn(carsOnServer[i]);
+                        }
+                    }                    
                 }
             };
         }
