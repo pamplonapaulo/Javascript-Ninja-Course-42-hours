@@ -215,44 +215,6 @@
             return document.querySelector('[id="' + newCar.id + '"]');
         }
         
-        /*function keepItOnServer(newCar){
-            
-            var ajax = new XMLHttpRequest();
-            ajax.open('POST', 'http://localhost:3000/car');
-            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            ajax.send('status='+newCar.status+
-                      '&id='+newCar.id+
-                      '&marca='+newCar.marca+
-                      '&modelo='+newCar.modelo+
-                      '&ano='+newCar.ano+
-                      '&placa='+newCar.placa+
-                      '&cor='+newCar.cor+
-                      '&imageUrl='+newCar.imageUrl);
-                      
-            var get = new XMLHttpRequest();
-            get.open('GET', 'http://localhost:3000/car/');
-            get.send();
-        }
-        
-        function removeItfromServer(car){
-                        
-            var ajax = new XMLHttpRequest();
-            ajax.open('POST', 'http://localhost:3000/car');
-            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            ajax.send('status='+car.status+
-                      '&id='+car.id+
-                      '&marca='+car.marca+
-                      '&modelo='+car.modelo+
-                      '&ano='+car.ano+
-                      '&placa='+car.placa+
-                      '&cor='+car.cor+
-                      '&imageUrl='+car.imageUrl);
-                      
-            var get = new XMLHttpRequest();
-            get.open('GET', 'http://localhost:3000/car/');
-            get.send();
-        }*/
-        
         function saveChanges(car){
                         
             var ajax = new XMLHttpRequest();

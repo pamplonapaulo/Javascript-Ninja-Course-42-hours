@@ -29,6 +29,8 @@ router.post('/', function(req, res) {
             indexOfMatch = index;
             return array[index].id === req.body.id;
     }
+    /*
+    OLD:
     
     if (data.length !== 0 && matchFound && req.body.status === 'deleted'){
         data.splice(indexOfMatch, 1);
@@ -48,7 +50,30 @@ router.post('/', function(req, res) {
     if (data.length === 0 && req.body.status !== 'deleted'){
         data.push(carToSave);
         matchFound = [];
+    }*/
+    
+    // NEW:
+    
+    if (matchFound && req.body.status === 'deleted'){
+        data.splice(indexOfMatch, 1);
+        matchFound = [];
+    }  
+    
+    if (matchFound && req.body.status !== 'deleted'){
+        data[indexOfMatch].status = req.body.status;
+        matchFound = [];
+    }     
+    
+    if (!matchFound){
+        data.push(carToSave);
+        matchFound = [];
     }
+    
+    /*if (data.length === 0 && req.body.status !== 'deleted'){
+        data.push(carToSave);
+        matchFound = [];
+    }*/    
+    
     res.json({ message: 'success' });
 });
 
