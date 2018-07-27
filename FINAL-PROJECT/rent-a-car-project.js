@@ -71,7 +71,7 @@
             setDeleteBtn(newCar);
             setSwitcherBtn(newCar);
             
-            keepItOnServer(newCar);
+            saveChanges(newCar);
         }
         
         function idGenerator(newCar){
@@ -154,7 +154,7 @@
                     carsArray[index].status = 'isFixing';
 
                 updateCardHtlm(index, newCar);
-                keepItOnServer(newCar);
+                saveChanges(newCar);
             }
         }  
         
@@ -198,7 +198,7 @@
                 idSelector(newCar).parentNode.removeChild(idSelector(newCar));
                 
                 newCar.status = 'deleted';
-                removeItfromServer(newCar);
+                saveChanges(newCar);
                 
                 updateMessage(carsArray);
             });         
@@ -215,7 +215,7 @@
             return document.querySelector('[id="' + newCar.id + '"]');
         }
         
-        function keepItOnServer(newCar){
+        /*function keepItOnServer(newCar){
             
             var ajax = new XMLHttpRequest();
             ajax.open('POST', 'http://localhost:3000/car');
@@ -228,22 +228,10 @@
                       '&placa='+newCar.placa+
                       '&cor='+newCar.cor+
                       '&imageUrl='+newCar.imageUrl);
-            
-            ajax.onreadystatechange = function(){
-                if(ajax.readySate == 4){
-                    console.log('Carro 111 cadastrado!', ajax.responseText);
-                }
-            }
                       
             var get = new XMLHttpRequest();
             get.open('GET', 'http://localhost:3000/car/');
             get.send();
-            get.onreadystatechange = function(){
-                if(get.readyState === 4){
-                    
-                    console.log('Adding or changing: ', newCar.id);
-                }
-            };
         }
         
         function removeItfromServer(car){
@@ -259,23 +247,30 @@
                       '&placa='+car.placa+
                       '&cor='+car.cor+
                       '&imageUrl='+car.imageUrl);
-            
-            ajax.onreadystatechange = function(){
-                if(ajax.readySate == 4){
-                    console.log('Removing: ', ajax.responseText);
-                }
-            }
                       
             var get = new XMLHttpRequest();
             get.open('GET', 'http://localhost:3000/car/');
             get.send();
-            get.onreadystatechange = function(){
-                if(get.readyState === 4){
-                    
-                    console.log('Car removed from server: ', car.id);
-                }
-            };            
-        }
+        }*/
+        
+        function saveChanges(car){
+                        
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', 'http://localhost:3000/car');
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            ajax.send('status='+car.status+
+                      '&id='+car.id+
+                      '&marca='+car.marca+
+                      '&modelo='+car.modelo+
+                      '&ano='+car.ano+
+                      '&placa='+car.placa+
+                      '&cor='+car.cor+
+                      '&imageUrl='+car.imageUrl);
+                      
+            var get = new XMLHttpRequest();
+            get.open('GET', 'http://localhost:3000/car/');
+            get.send();
+        }        
         
         function loadCarsOnServer(){
             
