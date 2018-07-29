@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 33 - </title>
+</head>
+<style>
+    
+    .aGetter {
+        color: blue;
+        font-size: 3rem;
+        opacity: 1;
+    }
+    
+    .anotherGetter {
+        opacity: 0.3;
+    }
+    
+</style>
+<body>
+   <h1>innerHTML, insertAdjacentHTML, Date, Math</h1>
+   
+   <div class="main" data-js="main">
+       <h1>Título</h1>
+       <p>Parágrafo</p>
+   </div>
+   
+   
+    <script>
+/*    
+            * * * * * * * * * * * * * * * * * * * * * *
+            *                                         *
+            *    ÍNDICE DA AULA 33                    *
+            *                                         *
+            *    1. Test Driven Development (TDD)     *
+            *                                         *
+            *                                         *
+            *      b - security issues                *
+            *                                         *
+            *    2. Behavior Driven Development (BDD) *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            *                                         *
+            * * * * * * * * * * * * * * * * * * * * * *
+
+
+    Test Driven Development (TDD)
+    Antes de começar a escrever o teste de um módulo e ele próprio, é necessário termos muito bem definido o que você precisa, o que você quer com o teu módulo.
+    
+    
+    
+    Folders Structure
+    Não é obrigatório, mas é desejável que os testes estejam dentro de uma pasta específica. No nosso caso, 'test'.
+    
+    
+    
+    Idioma das descrições dos testes
+    A descrição do módulo, normalmente, faz-se em inglês. Exemplo:
+    it('SUM module should be a function');
+    
+    
+    
+    Requisição do arquivo a ser testado
+    //var sum = require('../src/sum');
+    
+    
+    
+    Package JSON
+    Crie o arquivo package.json via Terminal:
+    //echo "{}" > package.json
+    
+    
+    
+    Chai
+    É preciso utilizar um módulo chamado 'chai', utilizado apra fazer os asserts.
+    
+    Instalação do 'chai' via Terminal:
+    //npm install --save-dev chai
+    
+    Inclua o 'chai' dentro do arquivo sum.test.js:
+    //var expect = require('chai').expect;
+    
+    
+    
+    Asserts
+    É algo que irá garantir que aquilo que está sendo escrito é verdadeiro.
+    //assert('Expecting SUM to be a function', typeof sum === 'function');
+    
+    
+
+    Behavior Driven Development (BDD)
+    É o mesmo que o TDD, mas de outra forma. No código:
+    //expect(sum).to.be.a('function');
+
+    
+        it('Expecting SUM to be a function', function(){
+            expect(sum).to.be.a('function');
+        });    
+    
+    O formato BDD é uma forma cuja leitura é mais fácil.
+    A mesma coisa no formato TDD, seria algo assim:
+
+    assert('Expecting SUM to be a function', typeof sum === 'function');
+
+    Feito isso, agora é só rodar o MOCHA no Terminal.
+    Execute-o dentro da pasta principal do projeto, no caso, aula-challenge-33.
+    O Mocha irá rodar automaticamente o conteúdo da paste test: sum.test.js, onde há o require para o ../src/sum.js
+    
+    
+
+    Baby Steps
+    É fazer com que um teste passe com o mínimo de código possível.
+    
+    Primeiro teste:
+    No arquivo sum.js, insira uma function vazia:
+    module.exports = function() {};
+    
+    Red     - Um teste que falha
+    Green   - Um teste que passa com baby step
+    Blue    - Refectory (reescrever o código melhorando-o, mas sem adicionar novas funcionalidades)
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+*/
+console.log('');
+
+
+
+   
+        
+        
+        
+    </script>
+</body>
+</html>

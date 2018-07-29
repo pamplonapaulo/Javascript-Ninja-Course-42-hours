@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 34 - Uglify.js, Ternary, Objects</title>
+</head>
+<style>
+    .aGetter {
+        color: blue;
+        font-size: 3rem;
+        opacity: 1;
+    }
+    .anotherGetter {
+        opacity: 0.3;
+    }
+</style>
+<body>
+   <h1>Uglify.js</h1>
+   <h1>Ternary (review)</h1>
+   <h1>Objects (review)</h1>
+   
+   <div class="main" data-js="main">
+   </div>
+    <script>
+/*    
+            * * * * * * * * * * * * * * * * * * * * * *
+            *                                         *
+            *    ÍNDICE DA AULA 34                    *
+            *                                         *
+            *    1. Deprecated methods                *
+            *                                         *
+            *    2. Uglify.js (code minifier)         *
+            *                                         *
+            *         --output                        *
+            *         --compress                      *
+            *         --mangle                        *
+            *         source-maps                     *
+            *                                         *
+            *                                         *
+            *    3. Ternary                           *
+            *                                         *
+            *    4. Objects                           *
+            *                                         *
+            * * * * * * * * * * * * * * * * * * * * * *
+
+1. Deprecated methods
+
+Funcionalidades obsoletas. Javascript tem mais de 20 anos. Pouca coisa mudou.
+A versão que aprendemos é o ECMAScript 5.
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/REference/Deprecated_and_obsolete_features
+
+O ECMAScript 6 não remove nada do ECMAScript 5, apenas acrescenta novidades. Em breve, Daciuk irá atualizar esse material.
+
+2. Biblioteca Uglify.js / Performance
+
+"tornar o código feio", parte do código que a máquina não precisa.
+
+"sudo npm install -g uglify-js"
+
+git://github.com/mishoo/UglifyJS2.
+
+Reinicie após a instalação. Comando no Terminal após a instalação:
+
+uglifyjs --version
+
+*/
+        
+// EM UM ARQUIVO main.js SEPARADO:
+(function (){
+    'use strict';
+    function init(){
+        console.log('hey');
+    }
+    init();
+})();
+        
+/*
+
+Como minificar o código, via Uglify no Terminal:
+"uglifyjs main.js"
+
+Como minificar o código preservando a versão original:
+"uglifyjs --output main.min.js -- main.js"
+
+
+
+*/
+// RESULTADO:
+(function (){'use strict';function init(){console.log('hey');}init();})();
+        
+        
+/*
+
+No Terminal, para ver o tamanho dos arquivos:
+"ls -lha"
+
+COMPRESS:
+Para comprimir ainda mais, no Terminal:
+"uglifyjs --output main.min.js --compress -- main.js"
+
+MANGLE:
+Para substituir elementos substituíveis, no Terminal:
+"uglifyjs --output main.min.js --compress -- mangle -- main.js"
+(basicamente, troca o nome de funções por caracteres quaisquer, menores).
+
+Até aqui, na demonstração de Daciuk, tudo isso junto fez o arquivo cair de 99 bites para 64 bites.
+
+Google Chrome Pretty Print:
+Função do browser que muda o formato na visualização via debugger.
+
+SOURCE-MAP:
+Visa facilitar o debug de arquivos minificados. No Terminal:
+"uglifyjs -source-map main.source.map --output main.min.js --compress -- mangle -- main.js"
+
+*/
+        
+        
+        
+        
+        
+/*
+4. Ternário (review)
+
+    O Operador ternário funciona parecido como uma função, ele retorna uma expressão, um valor.
+    Não deveria, portanto, ser utilizado como uma estrutura condicional (como IF).
+    Você não consegue atribuir um IF a uma variável. No ternário, sim
+*/
+(function(){
+    'use strict';
+    
+    var number = 1;
+    
+    var result = number === 1
+        ? 'o número é 1'
+        : 'o número não é 1';
+    
+    console.log(result);
+    
+})();
+        
+// OU:
+        
+(function(){
+    'use strict';
+    
+    var number = 1;
+    
+    function isOne(){
+        
+        return number === 1
+            ? 'o número é 1'
+            : 'o número não é 1';
+    }
+    console.log(isOne());
+})();
+        
+// SÃO AS DUAS ÚNCIAS FORMAS CORRETAS EM QUE DEVERÍAMOS UTILIZAR O TERNÁRIO.
+        
+// VOCÊ PODE TAMBÉM PASSAR O TERNÁRIO INTEIRO DENTRO COMO PARÂMETRO DENTRO DE UMA FUNÇÃO.
+        
+/*
+        
+/*
+6. Objects
+
+Garbage colector
+
+
+
+
+*/
+(function(){
+    'use strict';
+    
+    var a = {
+        prop1: 1
+    };
+    
+    var b = a;
+    
+    b.prop2 = '2';
+    
+    console.log(a, b);
+    console.log(a === b); // TRUE
+    
+    // Eles são sempre o mesmo objeto, a referência é a mesma.
+    
+})();
+
+    // OUTRO CASO, AGORA DIFERENTE:
+        
+(function(){
+    'use strict';
+    
+    var a = {
+        prop1: 1
+    };
+    
+    var B = {
+        prop1: 1
+    };
+    
+    console.log(a, b);
+    console.log(a, b, a === b); // FALSE
+    
+    // A referência NÃO é a mesma. Os objetos não são iguais.
+    
+})();   
+        
+/*
+CONCLUSÃO:
+        
+GARBAGE COLECTOR
+        
+Quando existe algum objeto de memória no escopo local que não está mais sendo utilizado, o javascript automaticamente limpa ele da memória.
+
+Se você atribuir um valor dentro do escopo global, o garbage colector não atuará. Exemplo:
+*/
+(function(){
+    'use strict';
+    
+    var a = { prop: 2 }
+    window.a = { prop: 2 ;
+    
+    // Isso gera o que é chamado de 'memory leak', vazamento de memória. Um espaço de memória que não precisaria estar sendo ocupado, mas é. Eventualmente, o computador pode travar.
+                
+    // Evite ao máximo usar o escopo global, por esta razão.
+    
+})();
+    
+/*
+
+PONTO E VÍRGULA
+ASI: Automatic Semicolon Insertion
+Desde que você siga alguams regras, não há a necessidade de incluir ponto-e-vírgula. Ver depois.
+
+PADRONIZAÇÃO
+Espaços, usar ou não?
+É code style.
+Ver sites:
+    JSCS Javascript Code Style
+    JSHint.com
+    ESLint
+    Standard.js (recomendado)
+
+
+
+LIVROS:
+
+1. Código Limpo - Clean Code (exemplificado em Java) - (Robert C. Martin)
+2. Javascript - O Guia Definitivo (David Flanagan)
+3. JavaScript - De Alto Desempenho (Nicholas C. Zakas)
+4. Segredos do Ninja JavaScript (John Resig, Bear Bibeault)
+5. Functional Javascript
+
+*/
+    </script>
+</body>
+</html>
